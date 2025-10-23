@@ -1,0 +1,904 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-10-23 Thu 00:41 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="author" content="Joe" />
+<meta name="generator" content="Org Mode" />
+<style type="text/css">
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { }
+</style>
+</head>
+<body>
+<div id="content" class="content">
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orgb705df2">1. Shape types</a></li>
+<li><a href="#org131dd8c">2. Rotating vectors</a></li>
+<li><a href="#org70be3c0">3. Finding the corners of a rectangle.</a></li>
+<li><a href="#orgba7df83">4. Colisions and intersections</a>
+<ul>
+<li><a href="#org07e42a1">4.1. Line segment intersections</a></li>
+<li><a href="#org9499541">4.2. (Axis Aligned) Rectangle collisions</a>
+<ul>
+<li><a href="#org87b9a20">4.2.1. Point in rectangle</a></li>
+<li><a href="#org4311d81">4.2.2. Line in rectangle</a></li>
+<li><a href="#orgbb16720">4.2.3. Rectangle in rectangle</a></li>
+</ul>
+</li>
+<li><a href="#org3a1f340">4.3. (Orientated) Rectangle collisions</a>
+<ul>
+<li><a href="#org6b46369">4.3.1. Point in rectangle</a></li>
+<li><a href="#orgd26c2d8">4.3.2. Line in rectangle</a></li>
+<li><a href="#org6540b5a">4.3.3. SAT (Seperating Axis Theorem)</a></li>
+<li><a href="#org6ef89c6">4.3.4. What is SAT</a></li>
+<li><a href="#org3adc50e">4.3.5. Implementing SAT</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org848c832">5. Collisions accross shapes</a></li>
+</ul>
+</div>
+</div>
+<p>
+Before you begin reading, there are some things you should know.
+</p>
+<div id="outline-container-orgb705df2" class="outline-2">
+<h2 id="orgb705df2"><span class="section-number-2">1.</span> Shape types</h2>
+<div class="outline-text-2" id="text-1">
+<div class="org-src-container">
+<pre class="src src-C"><span style="color: #0000FF; font-weight: bold;">struct</span> <span style="color: #6434A3;">PolygonProperties</span> {
+  <span style="color: #6434A3;">int</span> <span style="color: #BA36A5;">vertexCount</span>;
+  <span style="color: #6434A3;">vec2</span>* <span style="color: #BA36A5;">vertices</span>;
+  <span style="color: #6434A3;">bool</span> <span style="color: #BA36A5;">isConvex</span>;
+};
+
+<span style="color: #0000FF; font-weight: bold;">struct</span> <span style="color: #6434A3;">S_Rect</span> {
+  <span style="color: #6434A3;">vec2</span> <span style="color: #BA36A5;">origin</span>;
+  <span style="color: #6434A3;">float</span> <span style="color: #BA36A5;">width</span>, <span style="color: #BA36A5;">height</span>;
+  <span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">The corners of the rectangle, factoring rotations
+</span>  <span style="color: #6434A3;">vec2</span> <span style="color: #BA36A5;">topLeft</span>, <span style="color: #BA36A5;">topRight</span>, <span style="color: #BA36A5;">bottomLeft</span>, <span style="color: #BA36A5;">bottomRight</span>;
+  <span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">The corners of the rectangle, not factoring rotations
+</span>  <span style="color: #6434A3;">vec2</span> <span style="color: #BA36A5;">ut_topLeft</span>, <span style="color: #BA36A5;">ut_topRight</span>, <span style="color: #BA36A5;">ut_bottomLeft</span>, <span style="color: #BA36A5;">ut_bottomRight</span>;
+  <span style="color: #8D8D84;">// </span><span style="color: #8D8D84; font-style: italic;">The angle of the rectangle (in radians)
+</span>  <span style="color: #6434A3;">float</span> <span style="color: #BA36A5;">angle</span>;
+  <span style="color: #6434A3;">float</span> <span style="color: #BA36A5;">diagonal</span>;
+  <span style="color: #6434A3;">PolygonProperties</span> <span style="color: #BA36A5;">polyProperties</span>;
+};
+
+<span style="color: #0000FF; font-weight: bold;">struct</span> <span style="color: #6434A3;">S_Circle</span> {
+  <span style="color: #6434A3;">vec2</span> <span style="color: #BA36A5;">origin</span>;
+  <span style="color: #6434A3;">float</span> <span style="color: #BA36A5;">radius</span>;
+};
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org131dd8c" class="outline-2">
+<h2 id="org131dd8c"><span class="section-number-2">2.</span> Rotating vectors</h2>
+</div>
+
+
+<div id="outline-container-org70be3c0" class="outline-2">
+<h2 id="org70be3c0"><span class="section-number-2">3.</span> Finding the corners of a rectangle.</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+So we want to find the corners of a rectangle. We have the origin, the length and the width. When we have an unrotated rectangle, we can easily find the corners.
+</p>
+
+<p>
+Let:
+</p>
+<ul class="org-ul">
+<li>W (width) H (height)</li>
+<li>A (Top left corner) = (-W/2, H/2)</li>
+<li>B (Top right corner) = (W/2, H/2)</li>
+<li>C (Bottom left corner) = (-W/2, -H/2)</li>
+<li>D (Bottom right corner) = (W/2, -H/2)</li>
+</ul>
+
+<p>
+Now if we have an angle &Theta; on our rectangle, this won't work. So what can we do? Well you might think to just rotate all the points. And this works perfectly fine. We can calculate cos(&Theta;) and sin(&Theta;) once, reuse them for every corner, and get good enough results. However, there is a better method. 
+</p>
+
+<p>
+Lets look at two important properties of a rectangle.
+</p>
+<ul class="org-ul">
+<li>The opposite sides are parallel to eachother</li>
+<li>The interior angle of each corner is 90°.</li>
+</ul>
+
+<p>
+The components of the right angle corner are A, O, and R.
+Where:
+</p>
+<ul class="org-ul">
+<li>A is the adjacent vector</li>
+<li>O is the opposite vector</li>
+<li>R is the sum of A and O</li>
+</ul>
+
+<p>
+O will form a right angle from A. So all we need to do is get A, the point 90° from A.
+</p>
+
+<div class="org-center">
+<ul class="org-ul">
+<li>O = (-A<sub>y</sub>, A<sub>x</sub>)</li>
+</ul>
+</div>
+
+<p>
+So if &Theta; = 0, then
+</p>
+
+<ul class="org-ul">
+<li>A = (cos&Theta;, sin&Theta;) = (1, 0)</li>
+<li>O = (-A<sub>y</sub>, A<sub>x</sub>) = (0, 1)</li>
+<li>R = A + O = (1, 1)</li>
+</ul>
+
+<p>
+Now that we have A and O we can use them for every corner. If you want the bottom left, just do -R, and if you want the bottom right do (-A) - O. Lets look at the full equation to get all corners.
+</p>
+
+<p>
+Let:
+</p>
+<ul class="org-ul">
+<li>A = (cos&Theta;, sin&Theta;) * (W/2)</li>
+<li>O = (-A<sub>y</sub>, A<sub>x</sub>) * (H/2)</li>
+<li>C<sub>1</sub> (Top right)    =   A + O</li>
+<li>C<sub>2</sub> (Top left)     = (-A) + O</li>
+<li>C<sub>3</sub> (Bottom left)  =  -C<sub>1</sub></li>
+<li>C<sub>4</sub> (Bottom right) =   -C<sub>2</sub></li>
+</ul>
+
+<p>
+This is how the function would look in Luau
+</p>
+
+<div class="org-src-container">
+<pre class="src src-lua"><span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #0000FF; font-weight: bold;">function</span> <span style="color: #006699;">GetAARectCorners</span>(<span style="color: #BA36A5;">width</span>: number, height: number, origin: Vector2): (Vector2, Vector2, Vector2, Vector2)
+    <span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #BA36A5;">half_width</span> = width/2
+    <span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #BA36A5;">half_height</span> = height/2
+    <span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #BA36A5;">tr</span>, <span style="color: #BA36A5;">br</span> =
+        Vector2.new(half_width, half_height),
+        Vector2.new(half_width, -half_height)
+    <span style="color: #8D8D84;">-- </span><span style="color: #8D8D84; font-style: italic;">We can just use the opposite of the vectors.
+</span>    <span style="color: #0000FF; font-weight: bold;">return</span> -br + origin , tr + origin, -tr + origin, br + origin
+<span style="color: #0000FF; font-weight: bold;">end</span>
+
+<span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #0000FF; font-weight: bold;">function</span> <span style="color: #006699;">GetRectCorners</span>(<span style="color: #BA36A5;">width</span>: number, height: number, angle: number, origin: Vector2): (Vector2, Vector2, Vector2, Vector2)
+    <span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #BA36A5;">cos</span>, <span style="color: #BA36A5;">sin</span> = <span style="color: #006FE0;">math</span>.<span style="color: #006FE0;">cos</span>(angle), <span style="color: #006FE0;">math</span>.<span style="color: #006FE0;">sin</span>(angle)
+    <span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #BA36A5;">adjacent</span>  = Vector2.new(cos, sin) * (width/2)
+    <span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #BA36A5;">opposite</span> = Vector2.new(-sin, cos) * (height/2)
+
+    <span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #BA36A5;">C1</span> = adjacent + opposite
+    <span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #BA36A5;">C2</span> = -adjacent + opposite
+
+    <span style="color: #0000FF; font-weight: bold;">return</span>
+        origin + C1,
+        origin + C2,
+        origin - C1,
+        origin - C2
+<span style="color: #0000FF; font-weight: bold;">end</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgba7df83" class="outline-2">
+<h2 id="orgba7df83"><span class="section-number-2">4.</span> Colisions and intersections</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-org07e42a1" class="outline-3">
+<h3 id="org07e42a1"><span class="section-number-3">4.1.</span> Line segment intersections</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+What does it mean for two lines to intersect? Lets say we have a line L with the points {(1,0), (-1, 0)}. We want to check if these points cross Y axis. In order for that to happen, these points must be on opposite sides of the y-axis. Basically, one point needs to be on the left side, and the other on the right, If they are on the same side, they cannot cross each other. In this case, the line L does cross the y-axis because they are on opposite sides. We also know the y-axis crosses the L because it is infinite, so L and the y-axis intersect each other.
+</p>
+
+<p>
+We have a line segment L<sub>1</sub>, and a y-axis aligned line-segment L<sub>2</sub>.
+</p>
+
+<p>
+Let:
+</p>
+<ul class="org-ul">
+<li>L<sub>1</sub> = {p<sub>1</sub>, p<sub>2</sub>}</li>
+<li>L<sub>2</sub> = {p<sub>3</sub>, p<sub>4</sub>}</li>
+</ul>
+
+<p>
+We need to check if the points in L<sub>2</sub> are on the on the left and right of L<sub>1</sub>. We can use the cross product of two 2D vectors to determine this. The cross product of two 2D vectors, A and B, return a signed scalar value. We can use this signed value to detect if B is clockwise (right) or counterclockwise (left) from A.
+</p>
+
+<p>
+The cross product two 2D vectors is defined as:
+</p>
+<div class="org-center">
+<p>
+Cross(P<sub>1</sub>, P<sub>2</sub>) = P<sub>1</sub>.x * P<sub>2</sub>.y - P<sub>1</sub>.y * P<sub>2</sub>.x
+</p>
+</div>
+
+<p>
+So the function to find if L<sub>2</sub> crosses L<sub>1</sub> is:
+</p>
+<div class="org-center">
+<p>
+Cross(p<sub>2</sub> - p<sub>1</sub>, p<sub>3</sub> - p<sub>1</sub>) &gt; 0
+~=
+Cross(p<sub>2</sub> - p<sub>1</sub>, p<sub>4</sub> - p<sub>1</sub>) &gt; 0
+</p>
+</div>
+
+<p>
+We subtract p<sub>1</sub> from the values so they have a common origin. If they are AA or BB, it means they are on the same side, therefore they do not cross. If they are AB or BA, they are different, therefore they do cross.
+</p>
+
+<p>
+Now we need to check the other way, if the points in L<sub>1</sub> are on the on the left and right of L<sub>2</sub>. Since L<sub>2</sub> is y-axis aligned, we can just check if the x components of p<sub>1</sub> and p<sub>2</sub> are on the left and right of x of. It doesn't even matter which x we use from p<sub>3</sub> or p<sub>4</sub> in this case, since they are both the same.
+</p>
+
+<div class="org-center">
+<p>
+p<sub>1</sub>.x &lt; p<sub>3</sub>.x
+~=
+p<sub>2</sub>.x &lt; p<sub>3</sub>.x
+</p>
+</div>
+
+<p>
+If we wanted to check the same for an x-axis aligned line-segment, we just swap the x values for y.
+</p>
+
+<p>
+Lets look at how we would implement these functions in Luau:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-lua"><span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #0000FF; font-weight: bold;">function</span> <span style="color: #006699;">LineIntersectsXAALine</span>(<span style="color: #BA36A5;">p1</span>: Vector2, p2: Vector2, p3: Vector2, p4: Vector2): boolean
+    <span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #BA36A5;">fixed_p2</span> = p2 - p1 
+    <span style="color: #0000FF; font-weight: bold;">return</span>
+        <span style="color: #8D8D84;">-- </span><span style="color: #8D8D84; font-style: italic;">L&#8322; crosses L&#8321;
+</span>        fixed_p2:Cross(p3 - p1) &gt; 0
+        ~=
+        fixed_p2:Cross(p4 - p1) &gt; 0
+        <span style="color: #0000FF; font-weight: bold;">and</span>
+        <span style="color: #8D8D84;">-- </span><span style="color: #8D8D84; font-style: italic;">L&#8321; crosses L&#8322;
+</span>        p1.y &gt; p4.y
+        ~=
+        p2.y &gt; p4.y
+<span style="color: #0000FF; font-weight: bold;">end</span>
+
+<span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #0000FF; font-weight: bold;">function</span> <span style="color: #006699;">LineIntersectsYAALine</span>(<span style="color: #BA36A5;">p1</span>: Vector2, p2: Vector2, p3: Vector2, p4: Vector2): boolean
+    <span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #BA36A5;">fixed_p2</span> = p2 - p1 
+    <span style="color: #0000FF; font-weight: bold;">return</span>
+        <span style="color: #8D8D84;">-- </span><span style="color: #8D8D84; font-style: italic;">L&#8322; crosses L&#8321;
+</span>        fixed_p2:Cross(p3 - p1) &gt; 0
+        ~=
+        fixed_p2:Cross(p4 - p1) &gt; 0
+        <span style="color: #0000FF; font-weight: bold;">and</span>
+        <span style="color: #8D8D84;">-- </span><span style="color: #8D8D84; font-style: italic;">L&#8321; crosses L&#8322;
+</span>        p1.x &gt; p4.x
+        ~=
+        p2.x &gt; p4.x
+<span style="color: #0000FF; font-weight: bold;">end</span>
+
+<span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #0000FF; font-weight: bold;">function</span> <span style="color: #006699;">LineIntersectsLine</span>(<span style="color: #BA36A5;">p1</span>: Vector2, p2: Vector2, p3: Vector2, p4: Vector2): boolean
+    <span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #BA36A5;">fixed_p2</span> = p2 - p1
+    <span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #BA36A5;">fixed_p4</span> = p4 - p3
+    <span style="color: #0000FF; font-weight: bold;">return</span>
+        <span style="color: #8D8D84;">-- </span><span style="color: #8D8D84; font-style: italic;">L&#8321; crosses L&#8322;
+</span>        fixed_p2:Cross(p3 - p1) &gt; 0
+        ~=
+        fixed_p2:Cross(p4 - p1) &gt; 0
+        <span style="color: #0000FF; font-weight: bold;">and</span>
+        <span style="color: #8D8D84;">-- </span><span style="color: #8D8D84; font-style: italic;">L&#8322; crosses L&#8321;
+</span>        fixed_p4:Cross(p1 - p3) &gt; 0
+        ~=
+        fixed_p4:Cross(p2 - p3) &gt; 0
+<span style="color: #0000FF; font-weight: bold;">end</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org9499541" class="outline-3">
+<h3 id="org9499541"><span class="section-number-3">4.2.</span> (Axis Aligned) Rectangle collisions</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+This section will cover 3 types of rectangle collisions.
+</p>
+
+<ol class="org-ol">
+<li>Point in rectangle</li>
+<li>Line in rectangle</li>
+<li>Rectangle in rectangle</li>
+</ol>
+</div>
+<div id="outline-container-org87b9a20" class="outline-4">
+<h4 id="org87b9a20"><span class="section-number-4">4.2.1.</span> Point in rectangle</h4>
+<div class="outline-text-4" id="text-4-2-1">
+<p>
+The space to query in a unrotated rectangle is X<sub>min</sub> X<sub>max</sub>,  and Y<sub>min</sub> Y<sub>max</sub>.
+</p>
+
+<p>
+To test if a point is within a unrotated rectangle:
+</p>
+
+<p>
+P<sub>x</sub> &gt; X<sub>min</sub>
+and
+P<sub>x</sub> &lt; X<sub>max</sub>
+and
+P<sub>y</sub> &gt; Y<sub>min</sub>
+and
+P<sub>y</sub> &lt; Y<sub>max</sub>
+</p>
+
+<p>
+Where
+</p>
+<ul class="org-ul">
+<li>X<sub>min</sub> is the x value of any point on the left side.</li>
+<li>X<sub>max</sub> is the x value of any point on the right side.</li>
+<li>Y<sub>min</sub> is the y value of any point on the bottom side.</li>
+<li>Y<sub>max</sub> is the y value of any point on the top side.</li>
+</ul>
+
+<p>
+In Luau:
+</p>
+<div class="org-src-container">
+<pre class="src src-lua"><span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #0000FF; font-weight: bold;">function</span> <span style="color: #006699;">QueryPointInAARect</span>(<span style="color: #BA36A5;">point</span>: Vector2, rect: S_Rect): boolean
+    <span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #BA36A5;">tl</span> = rect.topLeft
+    <span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #BA36A5;">br</span> = rect.bottomRight
+    <span style="color: #0000FF; font-weight: bold;">return</span> 
+        point.X &gt; tl.X
+        <span style="color: #0000FF; font-weight: bold;">and</span> point.X &lt; br.X
+        <span style="color: #0000FF; font-weight: bold;">and</span> point.Y &gt; br.Y
+        <span style="color: #0000FF; font-weight: bold;">and</span> point.Y &lt; tl.Y
+<span style="color: #0000FF; font-weight: bold;">end</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org4311d81" class="outline-4">
+<h4 id="org4311d81"><span class="section-number-4">4.2.2.</span> Line in rectangle</h4>
+<div class="outline-text-4" id="text-4-2-2">
+<p>
+There are two ways to be considered "colliding" with a rectangle.
+</p>
+
+<ol class="org-ol">
+<li>Be within the space defined by the rectangle.</li>
+<li>Intersect the space defined by the rectangle.</li>
+</ol>
+
+<p>
+Two is important. If we have a cross (example figure below), where neither points are within the space of a rectangle, we can still have a collision.
+</p>
+
+<p>
+Although there are two ways to collide, there may be times where you might only want to detect intersections, like with raycasts. But for this implementation, I will cover both.
+</p>
+
+<p>
+For both of the collision cases, we already functions defined that we can reuse to make define function. For case 1, we can use QueryPointInAARect. And for case 2, because we know each line of the rectangle is axis aligned, we can use LineIntersects(X/Y)AALine.
+</p>
+
+<p>
+In Luau:
+</p>
+<div class="org-src-container">
+<pre class="src src-lua"><span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #0000FF; font-weight: bold;">function</span> <span style="color: #006699;">QueryLineInAARect</span>(<span style="color: #BA36A5;">p1</span>: Vector2, p2: Vector2, rect: S_Rect): boolean
+    <span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #BA36A5;">tl</span> = rect.topLeft
+    <span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #BA36A5;">tr</span> = rect.topRight
+    <span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #BA36A5;">bl</span> = rect.bottomLeft
+    <span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #BA36A5;">br</span> = rect.bottomRight
+
+    <span style="color: #0000FF; font-weight: bold;">return</span>
+        <span style="color: #8D8D84;">-- </span><span style="color: #8D8D84; font-style: italic;">Check if within the rect
+</span>        QueryPointInURect(p1, rect)
+        <span style="color: #0000FF; font-weight: bold;">or</span> QueryPointInURect(p2, rect)
+    <span style="color: #8D8D84;">-- </span><span style="color: #8D8D84; font-style: italic;">Check if intersect rect
+</span>        <span style="color: #0000FF; font-weight: bold;">or</span> LinesIntersectsYAALine(p1, p2, tl, bl)
+        <span style="color: #0000FF; font-weight: bold;">or</span> LinesIntersectsYAALine(p1, p2, tr, br)
+        <span style="color: #0000FF; font-weight: bold;">or</span> LinesIntersectsXAALine(p1, p2, tl, tr)
+        <span style="color: #0000FF; font-weight: bold;">or</span> LinesIntersectsXAALine(p1, p2, bl, br)
+<span style="color: #0000FF; font-weight: bold;">end</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgbb16720" class="outline-4">
+<h4 id="orgbb16720"><span class="section-number-4">4.2.3.</span> Rectangle in rectangle</h4>
+<div class="outline-text-4" id="text-4-2-3">
+<p>
+We have two axis aligned rectangles, R<sub>1</sub> and R<sub>2</sub>. We know the space defined by these rectangles is between x<sub>min</sub> x<sub>max</sub>, and y<sub>min</sub> y<sub>max</sub>. To check if the space between the two rectangles overlap, we can check:
+</p>
+
+<p>
+min<sub>1</sub> &lt; max<sub>2</sub>
+and
+max<sub>1</sub> &gt; min<sub>2</sub>
+</p>
+
+<p>
+for the x and y axis of the min and max of R<sub>1</sub> and R<sub>2</sub>. If the min is past the max, it is too far right, and if the max is behind the min, then it is too far left.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-lua"><span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #0000FF; font-weight: bold;">function</span> <span style="color: #006699;">QueryAARectInAARect</span>(<span style="color: #BA36A5;">r1</span>: S_Rect, r2: S_Rect): boolean
+    <span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #BA36A5;">tl1</span>, <span style="color: #BA36A5;">br1</span> = r1.topLeft, r1.bottomRight
+    <span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #BA36A5;">tl2</span>, <span style="color: #BA36A5;">br2</span> = r2.topLeft, r2.bottomRight
+    <span style="color: #0000FF; font-weight: bold;">return</span>
+        <span style="color: #8D8D84;">-- </span><span style="color: #8D8D84; font-style: italic;">Check collision in x space
+</span>        tl1.X &lt; br2.X
+        <span style="color: #0000FF; font-weight: bold;">and</span>
+        br1.X &gt; tl2.X
+        <span style="color: #0000FF; font-weight: bold;">and</span>
+        <span style="color: #8D8D84;">-- </span><span style="color: #8D8D84; font-style: italic;">Check collision in y space
+</span>        tl1.Y &lt; br2.Y
+        <span style="color: #0000FF; font-weight: bold;">and</span>
+        br1.Y &gt; tl2.Y
+<span style="color: #0000FF; font-weight: bold;">end</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org3a1f340" class="outline-3">
+<h3 id="org3a1f340"><span class="section-number-3">4.3.</span> (Orientated) Rectangle collisions</h3>
+<div class="outline-text-3" id="text-4-3">
+</div>
+<div id="outline-container-org6b46369" class="outline-4">
+<h4 id="org6b46369"><span class="section-number-4">4.3.1.</span> Point in rectangle</h4>
+<div class="outline-text-4" id="text-4-3-1">
+<p>
+This is actually pretty simple. Rather than dealing with a rotated rectangle, we can just rotate the point by the rectangle's angle.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-lua"><span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #0000FF; font-weight: bold;">function</span> <span style="color: #006699;">QueryPointInRect</span>(<span style="color: #BA36A5;">point</span>: Vector2, rect: S_Rect): boolean
+    <span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #BA36A5;">rotated_point</span> = RotatePointAroundPoint(point, rect.origin, rect.angle)
+    <span style="color: #0000FF; font-weight: bold;">return</span> QueryPointInAARect(rotated_point, rect)
+<span style="color: #0000FF; font-weight: bold;">end</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgd26c2d8" class="outline-4">
+<h4 id="orgd26c2d8"><span class="section-number-4">4.3.2.</span> Line in rectangle</h4>
+<div class="outline-text-4" id="text-4-3-2">
+<p>
+We use the same technique as Point in rectangle.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-lua"><span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #0000FF; font-weight: bold;">function</span> <span style="color: #006699;">QueryLineInRect</span>(<span style="color: #BA36A5;">p1</span>: Vector2, p2: Vector2, rect: S_Rect)
+    <span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #BA36A5;">rotated_p1</span> = RotatePointAroundPoint(p1, rect.origin, rect.angle)
+    <span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #BA36A5;">rotated_p2</span> = RotatePointAroundPoint(p2, rect.origin, rect.angle)
+    <span style="color: #0000FF; font-weight: bold;">return</span> QueryLineInAARect(rotated_p1, rotated_p2, rect)
+<span style="color: #0000FF; font-weight: bold;">end</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org6540b5a" class="outline-4">
+<h4 id="org6540b5a"><span class="section-number-4">4.3.3.</span> SAT (Seperating Axis Theorem)</h4>
+<div class="outline-text-4" id="text-4-3-3">
+<p>
+With AABB rectangle in rectangle collision, we checked, for each axis if:
+</p>
+
+<div class="org-center">
+<p>
+min<sub>1</sub> &lt; max<sub>2</sub>
+and
+max<sub>1</sub> &gt; min<sub>2</sub>
+</p>
+</div>
+
+<p>
+If this is true for both axes, there is a collision. In this section, we will take a closer look at its definition, and implementing it to even work with any convex polygon.
+</p>
+</div>
+</div>
+<div id="outline-container-org6ef89c6" class="outline-4">
+<h4 id="org6ef89c6"><span class="section-number-4">4.3.4.</span> What is SAT</h4>
+<div class="outline-text-4" id="text-4-3-4">
+<p>
+From <a href="https://en.wikipedia.org/wiki/Hyperplane_separation_theorem#Use_in_collision_detection">Wikipedia</a>:
+</p>
+<blockquote>
+<p>
+"Two closed convex objects are disjoint if there exists a line ("separating axis") onto which the two objects' projections are disjoint."
+</p>
+</blockquote>
+
+<p>
+This description "if there exists a line ("separating axis") onto which the two objects' projections are disjoint" may seem familiar. The entire time we have been using SAT. For example, with AABB- AABB collision, we "projected" the x values of our corners onto the x axis, and got the min and max from them. Well, we didn't actually do that in code. Because we already knew what point had the min and what point had the max.
+</p>
+</div>
+</div>
+<div id="outline-container-org3adc50e" class="outline-4">
+<h4 id="org3adc50e"><span class="section-number-4">4.3.5.</span> Implementing SAT</h4>
+<div class="outline-text-4" id="text-4-3-5">
+<p>
+We have two rectangles, R<sub>1</sub> and R<sub>2</sub>. We want to find out, using the SAT theorem, if these rectangles collide.
+</p>
+
+<p>
+The steps for detecting SAT collision are:
+</p>
+<ol class="org-ol">
+<li>Get the normals of the of the two convex shapes.</li>
+<li>Project the vertices of the two shapes onto the normals.</li>
+<li>For every projected normal for both shapes, get the min and max projected values of their own projection.</li>
+<li>Check if there is a seperation between them. If, at any axis (normal) the lines formed by min and max do not connect, then there is no collision.</li>
+</ol>
+
+<p>
+It sounds complex, and it is, but I will try my best to make it clear. If by the end of this you are still confused, here are some resources that could better visualize SAT.
+</p>
+
+<p>
+[1] danielstuts (May 6, 2020). 2D Physics Engine from Scratch (JS) 15: Separating Axis Theorem.
+<a href="https://www.youtube.com/watch?v=RBya4M6SWwk">https://www.youtube.com/watch?v=RBya4M6SWwk</a>
+[2] Programmer Art. Separating Axis Theorem
+<a href="https://programmerart.weebly.com/separating-axis-theorem.html">https://programmerart.weebly.com/separating-axis-theorem.html</a>
+</p>
+
+<p>
+Particularly, the tutorial by Programmer Art is a lot more detailed, and better explained than here. But, it is longer.
+</p>
+
+
+<p>
+Lets start with the first step, which is getting the normals of the rectangle. To get the normal of an edge E = {p<sub>1</sub>, p<sub>2</sub>}, you first get the direction vector. This means subtracting the origin (p<sub>1</sub>).
+</p>
+
+<div class="org-center">
+<p>
+V = p<sub>2</sub> - p<sub>1</sub>
+</p>
+</div>
+
+<p>
+Then we get the perpendicular vector from V, which gives us N (normal).
+</p>
+
+<div class="org-center">
+<p>
+N = (-V.y, V.x)
+</p>
+</div>
+
+<p>
+We do this for the left, right, top, and bottom side of a rectangle.
+</p>
+
+<p>
+In Luau:
+</p>
+<div class="org-src-container">
+<pre class="src src-lua"><span style="color: #8D8D84;">-- </span><span style="color: #8D8D84; font-style: italic;">This will not return an actual normalized (-1, 0, 1) unit vector.
+</span><span style="color: #8D8D84;">-- </span><span style="color: #8D8D84; font-style: italic;">To get the vector normalized, get the .Unit vector from the return value.
+</span><span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #0000FF; font-weight: bold;">function</span> <span style="color: #006699;">GetEdgeNormal</span>(<span style="color: #BA36A5;">p1</span>: Vector2, p2:Vector2): Vector2
+    <span style="color: #8D8D84;">-- </span><span style="color: #8D8D84; font-style: italic;">Direction vector
+</span>    <span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #BA36A5;">v</span> = p2 - p1
+    <span style="color: #8D8D84;">-- </span><span style="color: #8D8D84; font-style: italic;">Vector perpendicular to V
+</span>    <span style="color: #0000FF; font-weight: bold;">return</span> Vector2.new( -v.Y, v.X)
+<span style="color: #0000FF; font-weight: bold;">end</span>
+
+<span style="color: #8D8D84;">-- </span><span style="color: #8D8D84; font-style: italic;">Return in order:
+</span><span style="color: #8D8D84;">-- </span><span style="color: #8D8D84; font-style: italic;">Top normal
+</span><span style="color: #8D8D84;">-- </span><span style="color: #8D8D84; font-style: italic;">Bottom normal
+</span><span style="color: #8D8D84;">-- </span><span style="color: #8D8D84; font-style: italic;">Left normal
+</span><span style="color: #8D8D84;">-- </span><span style="color: #8D8D84; font-style: italic;">Right normal
+</span><span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #0000FF; font-weight: bold;">function</span> <span style="color: #006699;">GetRectNormals</span>(<span style="color: #BA36A5;">rect</span>: S_Rect): (Vector2, Vector2, Vector2, Vector2)
+    <span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #BA36A5;">tl</span>, <span style="color: #BA36A5;">tr</span>, <span style="color: #BA36A5;">bl</span>, <span style="color: #BA36A5;">br</span> = rect.topLeft, rect.topRight, rect.bottomLeft, rect.bottomRight
+    <span style="color: #0000FF; font-weight: bold;">return</span>
+        GetEdgeNormal(tl, tr),
+        GetEdgeNormal(bl, br),
+        GetEdgeNormal(tl, bl),
+        GetEdgeNormal(tr, br)
+<span style="color: #0000FF; font-weight: bold;">end</span> <span style="color: #8D8D84;">-- </span><span style="color: #8D8D84; font-style: italic;">This function is not needed.</span>
+</pre>
+</div>
+
+<p>
+Using the logic above, we now have the normals of R<sub>1</sub>. Now we need to project the corners of both rectangles onto these normals. With AABB rectangles, all we had to do was just use the min and max of the x and the y axes. So how can we get the min and max of our corners along the normal as a single number? The dot product.
+</p>
+
+<div class="org-center">
+<p>
+P (Projection) = DotProduct(N, c)
+</p>
+</div>
+
+<p>
+Where x is a corner of our rectangle.
+</p>
+
+<p>
+Do this for every corner on a rectangle, and get the min and max of the projections. From there, it is the same as how we checked for intersection with two AABB rectangles, with the only difference being that we check if R<sub>1</sub> crosses R<sub>2</sub>, and if R<sub>2</sub> crosses R<sub>1</sub>. Similar to what we have done with line segment intersections earlier. If at any axis (normal) they don't cross eachother, then we can return early because there is no collision.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-lua"><span style="color: #8D8D84;">-- </span><span style="color: #8D8D84; font-style: italic;">Return the min and max of the corner projection
+</span><span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #0000FF; font-weight: bold;">function</span> <span style="color: #006699;">ProjectRectCorners</span>(<span style="color: #BA36A5;">p1</span>:  Vector2, p2:  Vector2, p3:  Vector2, p4:  Vector2, projection_vector: Vector2): (number, number)
+    <span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #BA36A5;">projection1</span> = projection_vector:Dot(p1)
+    <span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #BA36A5;">projection2</span> = projection_vector:Dot(p2)
+    <span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #BA36A5;">projection3</span> = projection_vector:Dot(p3)
+    <span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #BA36A5;">projection4</span> = projection_vector:Dot(p4)
+    <span style="color: #0000FF; font-weight: bold;">return</span>
+        <span style="color: #006FE0;">math</span>.<span style="color: #006FE0;">min</span>(projection1, projection2, projection3, projection4),
+        <span style="color: #006FE0;">math</span>.<span style="color: #006FE0;">max</span>(projection1, projection2, projection3, projection4)
+<span style="color: #0000FF; font-weight: bold;">end</span>
+
+<span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #0000FF; font-weight: bold;">function</span> <span style="color: #006699;">RectProjectionIntersects</span>(<span style="color: #BA36A5;">rect1</span>: S_Rect, rect2: S_Rect): boolean
+    <span style="color: #8D8D84;">-- </span><span style="color: #8D8D84; font-style: italic;">Top corners
+</span>    <span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #BA36A5;">tl1</span>, <span style="color: #BA36A5;">tr1</span>, <span style="color: #BA36A5;">tl2</span>, <span style="color: #BA36A5;">tr2</span> =
+        rect1.topLeft, rect1.topRight,
+        rect2.topLeft, rect2.topRight
+    <span style="color: #8D8D84;">-- </span><span style="color: #8D8D84; font-style: italic;">Bottom corners
+</span>    <span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #BA36A5;">bl1</span>, <span style="color: #BA36A5;">br1</span>, <span style="color: #BA36A5;">bl2</span>, <span style="color: #BA36A5;">br2</span> =
+        rect1.bottomLeft, rect1.bottomRight,
+        rect2.bottomLeft, rect2.bottomRight
+    <span style="color: #8D8D84;">-- </span><span style="color: #8D8D84; font-style: italic;">Because there are two parallel lines, we only need two normals from each rect
+</span>    <span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #BA36A5;">n1</span>, <span style="color: #BA36A5;">n2</span>, <span style="color: #BA36A5;">n3</span>, <span style="color: #BA36A5;">n4</span> =
+        <span style="color: #8D8D84;">-- </span><span style="color: #8D8D84; font-style: italic;">First rect normals
+</span>        GetEdgeNormal(tl1, tr1),
+        GetEdgeNormal(tl1, br1),
+        <span style="color: #8D8D84;">-- </span><span style="color: #8D8D84; font-style: italic;">Second rect normals
+</span>        GetEdgeNormal(tl2, tr2),
+        GetEdgeNormal(tl2, br2)
+
+    <span style="color: #8D8D84;">-- </span><span style="color: #8D8D84; font-style: italic;">Project corners onto rectangle
+</span>    <span style="color: #8D8D84;">-- </span><span style="color: #8D8D84; font-style: italic;">rx = rectangle (x)
+</span>    <span style="color: #8D8D84;">-- </span><span style="color: #8D8D84; font-style: italic;">px = projection (x)
+</span>    <span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #BA36A5;">r1_p1_min</span>, <span style="color: #BA36A5;">r1_p1_max</span> = ProjectRectCorners(tl1, tr1, bl1, br1, n1)
+    <span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #BA36A5;">r2_p1_min</span>, <span style="color: #BA36A5;">r2_p1_max</span> = ProjectRectCorners(tl2, tr2, bl2, br2, n1)
+
+    <span style="color: #8D8D84;">-- </span><span style="color: #8D8D84; font-style: italic;">Check if it is too far right or too far left to intersect.
+</span>    <span style="color: #0000FF; font-weight: bold;">if</span>  r1_p1_min &gt; r2_p1_max <span style="color: #0000FF; font-weight: bold;">or</span> r1_p1_max &lt; r2_p1_min <span style="color: #0000FF; font-weight: bold;">then</span>
+        <span style="color: #0000FF; font-weight: bold;">return</span> <span style="color: #D0372D;">false</span>
+    <span style="color: #0000FF; font-weight: bold;">end</span>
+
+    <span style="color: #8D8D84;">-- </span><span style="color: #8D8D84; font-style: italic;">Rect&#8321; normal 2
+</span>    <span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #BA36A5;">r1_p2_min</span>, <span style="color: #BA36A5;">r1_p2_max</span> = ProjectRectCorners(tl1, tr1, bl1, br1, n2)
+    <span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #BA36A5;">r2_p2_min</span>, <span style="color: #BA36A5;">r2_p2_max</span> = ProjectRectCorners(tl2, tr2, bl2, br2, n2)
+
+    <span style="color: #0000FF; font-weight: bold;">if</span>  r1_p2_min &gt; r2_p2_max <span style="color: #0000FF; font-weight: bold;">or</span> r1_p2_max &lt; r2_p2_min <span style="color: #0000FF; font-weight: bold;">then</span>
+        <span style="color: #0000FF; font-weight: bold;">return</span> <span style="color: #D0372D;">false</span>
+    <span style="color: #0000FF; font-weight: bold;">end</span>
+    <span style="color: #8D8D84;">-- </span><span style="color: #8D8D84; font-style: italic;">Second rect
+</span>    <span style="color: #8D8D84;">-- </span><span style="color: #8D8D84; font-style: italic;">Rect&#8322; normal 1
+</span>    <span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #BA36A5;">r1_p3_min</span>, <span style="color: #BA36A5;">r1_p3_max</span> = ProjectRectCorners(tl1, tr1, bl1, br1, n3)
+    <span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #BA36A5;">r2_p3_min</span>, <span style="color: #BA36A5;">r2_p3_max</span> = ProjectRectCorners(tl2, tr2, bl2, br2, n3)
+
+    <span style="color: #0000FF; font-weight: bold;">if</span>  r1_p3_min &gt; r2_p3_max <span style="color: #0000FF; font-weight: bold;">or</span> r1_p3_max &lt; r2_p3_min <span style="color: #0000FF; font-weight: bold;">then</span>
+        <span style="color: #0000FF; font-weight: bold;">return</span> <span style="color: #D0372D;">false</span>
+    <span style="color: #0000FF; font-weight: bold;">end</span>
+
+    <span style="color: #8D8D84;">-- </span><span style="color: #8D8D84; font-style: italic;">Rect&#8322; normal 2
+</span>    <span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #BA36A5;">r1_p4_min</span>, <span style="color: #BA36A5;">r1_p4_max</span> = ProjectRectCorners(tl1, tr1, bl1, br1, n4)
+    <span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #BA36A5;">r2_p4_min</span>, <span style="color: #BA36A5;">r2_p4_max</span> = ProjectRectCorners(tl2, tr2, bl2, br2, n4)
+
+    <span style="color: #0000FF; font-weight: bold;">if</span>  r1_p4_min &gt; r2_p4_max <span style="color: #0000FF; font-weight: bold;">or</span> r1_p4_max &lt; r2_p4_min <span style="color: #0000FF; font-weight: bold;">then</span>
+        <span style="color: #0000FF; font-weight: bold;">return</span> <span style="color: #D0372D;">false</span>
+    <span style="color: #0000FF; font-weight: bold;">end</span>
+    <span style="color: #8D8D84;">-- </span><span style="color: #8D8D84; font-style: italic;">If all these tests passed, there is a collision 
+</span>    <span style="color: #0000FF; font-weight: bold;">return</span> <span style="color: #D0372D;">true</span>
+<span style="color: #0000FF; font-weight: bold;">end</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org848c832" class="outline-2">
+<h2 id="org848c832"><span class="section-number-2">5.</span> Collisions accross shapes</h2>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Joe</p>
+<p class="date">Created: 2025-10-23 Thu 00:41</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

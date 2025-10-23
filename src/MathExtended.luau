@@ -1,20 +1,3 @@
---!nonstrict
---[[
-	You will notice there are many times where a math function can easily be reused, but isnt. (e.g vector rotations).
-	This is to avoid having to make function calls, as inlining in Luau is pretty bad, so if the function is short,
-	I will try to avoid calling it and just copy it into the function.
-
-	[ Naming conventions ]
-	
-	Shapes types are prefixed by S_.
-	Functions that operate on unrotated shaped will prefix the shape(s) with U. (e.g )
-	Certain vector operations (e.g rotation) are prefixed by two letter representing the vector type. These are:
-	 - VN = Luau's built in vector type.
-	 - V2 = Roblox Vector2 type.
-	 - V3 = Roblox Vector3 type
-	
-	
-]]--
 --< Module begin >---
 local MathExtended = {}
 
@@ -24,29 +7,30 @@ local sin = math.sin
 local atan2 = math.atan2
 local acos = math.acos
 
-
---> Alias of commonly used functions
-local GetRectCorners
-
 ---- Types ----
--- Many shapes here contain cached properties to avoid unneeded calculations in the worst case scenario.
--- At worst, it is "unneeded" variables and more memory used.
--- But at best, it allows you to avoid having to calculate a property many times over.
--- It also makes it easier for us, not having to write more functions to deal with different use cases.
+export type PolygonProperties = {
+	vertices: {Vector2},
+	isConvex: boolean
+}
 
-export type S_Rectangle = {
+export type S_Rect = {
 	origin: Vector2,
 	width: number,
 	height: number,
-	diagonal: number
+	diagonal: number,
 	-- Rotation angle (in radians)
 	angle: number,
-	
-	cornerTopLeft: Vector2,
-	cornerTopRight: Vector2,
-	cornerBottomLeft: Vector2,
-	cornerBottomRight: Vector2,
-	
+	-- Corners
+	topLeft: Vector2,
+	topRight: Vector2,
+	bottomLeft: Vector2,
+	bottomRight: Vector2,
+	-- Untranslated corners
+	ut_topLeft: Vector2,
+	ut_topRight: Vector2,
+	ut_bottomLeft: Vector2,
+	ut_bottomRight: Vector2,
+	polyProperties: PolygonProperties
 }
 
 export type S_Circle = {

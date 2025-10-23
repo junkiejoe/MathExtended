@@ -1,3 +1,36 @@
+Before you begin reading, there are some things you should know.
+
+   
+* Shape types
+
+#+begin_src C
+  struct PolygonProperties {
+    int vertexCount;
+    vec2* vertices;
+    bool isConvex;
+  };
+
+  struct S_Rect {
+    vec2 origin;
+    float width, height;
+    // The corners of the rectangle, factoring rotations
+    vec2 topLeft, topRight, bottomLeft, bottomRight;
+    // The corners of the rectangle, not factoring rotations
+    vec2 ut_topLeft, ut_topRight, ut_bottomLeft, ut_bottomRight;
+    // The angle of the rectangle (in radians)
+    float angle;
+    float diagonal;
+    PolygonProperties polyProperties;
+  };
+
+  struct S_Circle {
+    vec2 origin;
+    float radius;
+  };
+#+end_src
+
+* Rotating vectors
+
 
 * Finding the corners of a rectangle.
 
@@ -24,8 +57,12 @@ Where:
 
 O will form a right angle from A. So all we need to do is get A, the point 90° from A.
 
+#+begin_center
 - O = (-A_{y}, A_{x})
-(Tip: If you want to get the left angle, don't neg A_{y})
+#+end_center
+#+begin_comment
+Tip: If you want to get the left angle, don't neg A_{y}
+#+end_comment
 
 So if \Theta = 0, then
 
@@ -46,24 +83,34 @@ Let:
 This is how the function would look in Luau
 
 #+begin_src lua
-  local function GetRectCorners(width: number, height: number, angle: number, origin: Vector2): (Vector2, Vector2, Vector2, Vector2)
-  	local cos, sin = math.cos(angle), math.sin(angle)
-  	local adjacent  = Vector2.new(cos, sin) * (width/2)
-  	local opposite = Vector2.new(-sin, cos) * (height/2)
+  local function GetAARectCorners(width: number, height: number, origin: Vector2): (Vector2, Vector2, Vector2, Vector2)
+  	local half_width = width/2
+  	local half_height = height/2
+  	local tr, br =
+  		Vector2.new(half_width, half_height),
+  		Vector2.new(half_width, -half_height)
+  	-- We can just use the opposite of the vectors.
+  	return -br + origin , tr + origin, -tr + origin, br + origin
+  end
 
-  	local C1 = adjacent + opposite
-  	local C2 = -adjacent + opposite
-  	
-  	return
-  		-- C₁
-  		origin + C1,
-  		origin + C2,
-  		origin - C1,
-  		origin - C2
+  local function GetRectCorners(width: number, height: number, angle: number, origin: Vector2): (Vector2, Vector2, Vector2, Vector2)
+    	local cos, sin = math.cos(angle), math.sin(angle)
+    	local adjacent  = Vector2.new(cos, sin) * (width/2)
+    	local opposite = Vector2.new(-sin, cos) * (height/2)
+
+    	local C1 = adjacent + opposite
+    	local C2 = -adjacent + opposite
+    	
+    	return
+    		origin + C1,
+    		origin + C2,
+    		origin - C1,
+    		origin - C2
   end
 #+end_src
 
-* Line segment intersections
+* Colisions and intersections
+** Line segment intersections
 
 What does it mean for two lines to intersect? Lets say we have a line L with the points {(1,0), (-1, 0)}. We want to check if these points cross Y axis. In order for that to happen, these points must be on opposite sides of the y-axis. Basically, one point needs to be on the left side, and the other on the right, If they are on the same side, they cannot cross each other. In this case, the line L does cross the y-axis because they are on opposite sides. We also know the y-axis crosses the L because it is infinite, so L and the y-axis intersect each other.
 
@@ -76,21 +123,26 @@ Let:
 We need to check if the points in L_{2} are on the on the left and right of L_{1}. We can use the cross product of two 2D vectors to determine this. The cross product of two 2D vectors, A and B, return a signed scalar value. We can use this signed value to detect if B is clockwise (right) or counterclockwise (left) from A.
 
 The cross product two 2D vectors is defined as:
+#+begin_center
 Cross(P_{1}, P_{2}) = P_{1}.x * P_{2}.y - P_{1}.y * P_{2}.x
+#+end_center
 
 So the function to find if L_{2} crosses L_{1} is:
-
+#+begin_center
 Cross(p_{2} - p_{1}, p_{3} - p_{1}) > 0
 ~=
 Cross(p_{2} - p_{1}, p_{4} - p_{1}) > 0
+#+end_center
 
 We subtract p_{1} from the values so they have a common origin. If they are AA or BB, it means they are on the same side, therefore they do not cross. If they are AB or BA, they are different, therefore they do cross.
 
 Now we need to check the other way, if the points in L_{1} are on the on the left and right of L_{2}. Since L_{2} is y-axis aligned, we can just check if the x components of p_{1} and p_{2} are on the left and right of x of. It doesn't even matter which x we use from p_{3} or p_{4} in this case, since they are both the same.
 
+#+begin_center
 p_{1}.x < p_{3}.x
 ~=
 p_{2}.x < p_{3}.x
+#+end_center
 
 If we wanted to check the same for an x-axis aligned line-segment, we just swap the x values for y.
 
@@ -141,7 +193,7 @@ Lets look at how we would implement these functions in Luau:
   end
 #+end_src
 
-* (Axis Aligned) Rectangle collisions
+** (Axis Aligned) Rectangle collisions
 
 This section will cover 3 types of rectangle collisions.
 
@@ -149,7 +201,7 @@ This section will cover 3 types of rectangle collisions.
 2. Line in rectangle
 3. Rectangle in rectangle
 
-** Point in rectangle
+*** Point in rectangle
    
 The space to query in a unrotated rectangle is X_{min} X_{max},  and Y_{min} Y_{max}.
 
@@ -182,7 +234,7 @@ In Luau:
   end
 #+end_src
 
-** Line in rectangle
+*** Line in rectangle
 
 There are two ways to be considered "colliding" with a rectangle.
 
@@ -215,8 +267,7 @@ In Luau:
   end
 #+end_src
 
-
-** Rectangle in rectangle
+*** Rectangle in rectangle
 
 We have two axis aligned rectangles, R_{1} and R_{2}. We know the space defined by these rectangles is between x_{min} x_{max}, and y_{min} y_{max}. To check if the space between the two rectangles overlap, we can check:
 
@@ -224,7 +275,7 @@ min_{1} < max_{2}
 and
 max_{1} > min_{2}
 
-for the x and y of the min and max of R_{1} and R_{2}. If the min is past the max, it is too far right, and if the max is behind the min, then it is too far left.
+for the x and y axis of the min and max of R_{1} and R_{2}. If the min is past the max, it is too far right, and if the max is behind the min, then it is too far left.
 
 #+begin_src lua
   local function QueryAARectInAARect(r1: S_Rect, r2: S_Rect): boolean
@@ -243,13 +294,8 @@ for the x and y of the min and max of R_{1} and R_{2}. If the min is past the ma
   end
 #+end_src
 
-* Collisions with different shapes
-
-* (rotated) Rectangle collisions
-
-Unless physics is important to your gameplay, AABB should be preferred. Not only is it faster, but it is easier to understand and implement. Most 2D games will use AABB for this reason.
-
-** Point in rectangle
+** (Orientated) Rectangle collisions
+*** Point in rectangle
 
 This is actually pretty simple. Rather than dealing with a rotated rectangle, we can just rotate the point by the rectangle's angle.
 
@@ -260,7 +306,7 @@ This is actually pretty simple. Rather than dealing with a rotated rectangle, we
   end
 #+end_src
 
-** Line in rectangle
+*** Line in rectangle
 
 We use the same technique as Point in rectangle.
 
@@ -272,6 +318,163 @@ We use the same technique as Point in rectangle.
   end
 #+end_src
 
-** Rectangle in rectangle
+*** SAT (Seperating Axis Theorem)
 
-There are two different ways to handle rotated rectangle collisions. One is using the most popular method, SAT (Seperating Axis)
+With AABB rectangle in rectangle collision, we checked, for each axis if:
+
+#+begin_center
+min_{1} < max_{2}
+and
+max_{1} > min_{2}
+#+end_center
+
+If this is true for both axes, there is a collision. In this section, we will take a closer look at its definition, and implementing it to even work with any convex polygon.
+
+*** What is SAT
+From [[https://en.wikipedia.org/wiki/Hyperplane_separation_theorem#Use_in_collision_detection][Wikipedia]]:
+#+begin_quote
+"Two closed convex objects are disjoint if there exists a line ("separating axis") onto which the two objects' projections are disjoint."
+#+end_quote
+
+This description "if there exists a line ("separating axis") onto which the two objects' projections are disjoint" may seem familiar. The entire time we have been using SAT. For example, with AABB- AABB collision, we "projected" the x values of our corners onto the x axis, and got the min and max from them. Well, we didn't actually do that in code. Because we already knew what point had the min and what point had the max.
+*** Implementing SAT
+
+We have two rectangles, R_{1} and R_{2}. We want to find out, using the SAT theorem, if these rectangles collide.
+
+The steps for detecting SAT collision are:
+1. Get the normals of the of the two convex shapes.
+2. Project the vertices of the two shapes onto the normals.
+3. For every projected normal for both shapes, get the min and max projected values of their own projection.
+4. Check if there is a seperation between them. If, at any axis (normal) the lines formed by min and max do not connect, then there is no collision.
+
+It sounds complex, and it is, but I will try my best to make it clear. If by the end of this you are still confused, here are some resources that could better visualize SAT.
+
+[1] danielstuts (May 6, 2020). 2D Physics Engine from Scratch (JS) 15: Separating Axis Theorem.
+https://www.youtube.com/watch?v=RBya4M6SWwk
+[2] Programmer Art. Separating Axis Theorem
+https://programmerart.weebly.com/separating-axis-theorem.html
+
+Particularly, the tutorial by Programmer Art is a lot more detailed, and better explained than here. But, it is longer.
+
+
+Lets start with the first step, which is getting the normals of the rectangle. To get the normal of an edge E = {p_{1}, p_{2}}, you first get the direction vector. This means subtracting the origin (p_{1}).
+
+#+begin_center
+V = p_{2} - p_{1}
+#+end_center
+
+Then we get the perpendicular vector from V, which gives us N (normal).
+
+#+begin_center
+N = (-V.y, V.x)
+#+end_center
+
+We do this for the left, right, top, and bottom side of a rectangle.
+
+In Luau:
+#+begin_src lua
+  -- This will not return an actual normalized (-1, 0, 1) unit vector.
+  -- To get the vector normalized, get the .Unit vector from the return value.
+  local function GetEdgeNormal(p1: Vector2, p2:Vector2): Vector2
+  	-- Direction vector
+  	local v = p2 - p1
+  	-- Vector perpendicular to V
+  	return Vector2.new( -v.Y, v.X)
+  end
+
+  -- Return in order:
+  -- Top normal
+  -- Bottom normal
+  -- Left normal
+  -- Right normal
+  local function GetRectNormals(rect: S_Rect): (Vector2, Vector2, Vector2, Vector2)
+  	local tl, tr, bl, br = rect.topLeft, rect.topRight, rect.bottomLeft, rect.bottomRight
+  	return
+  		GetEdgeNormal(tl, tr),
+  		GetEdgeNormal(bl, br),
+  		GetEdgeNormal(tl, bl),
+  		GetEdgeNormal(tr, br)
+  end -- This function is not needed.
+#+end_src
+
+Using the logic above, we now have the normals of R_{1}. Now we need to project the corners of both rectangles onto these normals. With AABB rectangles, all we had to do was just use the min and max of the x and the y axes. So how can we get the min and max of our corners along the normal as a single number? The dot product.
+
+#+begin_center
+P (Projection) = DotProduct(N, c)
+#+end_center
+
+Where x is a corner of our rectangle.
+
+Do this for every corner on a rectangle, and get the min and max of the projections. From there, it is the same as how we checked for intersection with two AABB rectangles, with the only difference being that we check if R_{1} crosses R_{2}, and if R_{2} crosses R_{1}. Similar to what we have done with line segment intersections earlier. If at any axis (normal) they don't cross eachother, then we can return early because there is no collision.
+
+#+begin_src lua
+  -- Return the min and max of the corner projection
+  local function ProjectRectCorners(p1:  Vector2, p2:  Vector2, p3:  Vector2, p4:  Vector2, projection_vector: Vector2): (number, number)
+  	local projection1 = projection_vector:Dot(p1)
+  	local projection2 = projection_vector:Dot(p2)
+  	local projection3 = projection_vector:Dot(p3)
+  	local projection4 = projection_vector:Dot(p4)
+  	return
+  		math.min(projection1, projection2, projection3, projection4),
+  		math.max(projection1, projection2, projection3, projection4)
+  end
+
+  local function RectProjectionIntersects(rect1: S_Rect, rect2: S_Rect): boolean
+  	-- Top corners
+  	local tl1, tr1, tl2, tr2 =
+  		rect1.topLeft, rect1.topRight,
+  		rect2.topLeft, rect2.topRight
+  	-- Bottom corners
+  	local bl1, br1, bl2, br2 =
+  		rect1.bottomLeft, rect1.bottomRight,
+  		rect2.bottomLeft, rect2.bottomRight
+  	-- Because there are two parallel lines, we only need two normals from each rect
+  	local n1, n2, n3, n4 =
+  		-- First rect normals
+  		GetEdgeNormal(tl1, tr1),
+  		GetEdgeNormal(tl1, br1),
+  		-- Second rect normals
+  		GetEdgeNormal(tl2, tr2),
+  		GetEdgeNormal(tl2, br2)
+  	
+  	-- Project corners onto rectangle
+  	-- rx = rectangle (x)
+  	-- px = projection (x)
+  	local r1_p1_min, r1_p1_max = ProjectRectCorners(tl1, tr1, bl1, br1, n1)
+  	local r2_p1_min, r2_p1_max = ProjectRectCorners(tl2, tr2, bl2, br2, n1)
+
+  	-- Check if it is too far right or too far left to intersect.
+  	if  r1_p1_min > r2_p1_max or r1_p1_max < r2_p1_min then
+  		return false
+  	end
+  	
+  	-- Rect₁ normal 2
+  	local r1_p2_min, r1_p2_max = ProjectRectCorners(tl1, tr1, bl1, br1, n2)
+  	local r2_p2_min, r2_p2_max = ProjectRectCorners(tl2, tr2, bl2, br2, n2)
+
+  	if  r1_p2_min > r2_p2_max or r1_p2_max < r2_p2_min then
+  		return false
+  	end
+  	-- Second rect
+  	-- Rect₂ normal 1
+  	local r1_p3_min, r1_p3_max = ProjectRectCorners(tl1, tr1, bl1, br1, n3)
+  	local r2_p3_min, r2_p3_max = ProjectRectCorners(tl2, tr2, bl2, br2, n3)
+
+  	if  r1_p3_min > r2_p3_max or r1_p3_max < r2_p3_min then
+  		return false
+  	end
+
+  	-- Rect₂ normal 2
+  	local r1_p4_min, r1_p4_max = ProjectRectCorners(tl1, tr1, bl1, br1, n4)
+  	local r2_p4_min, r2_p4_max = ProjectRectCorners(tl2, tr2, bl2, br2, n4)
+
+  	if  r1_p4_min > r2_p4_max or r1_p4_max < r2_p4_min then
+  		return false
+  	end
+  	-- If all these tests passed, there is a collision 
+  	return true
+  end
+#+end_src
+
+
+* Collisions accross shapes

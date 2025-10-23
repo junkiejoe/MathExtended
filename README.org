@@ -1,0 +1,15 @@
+A Luau library that extends Roblox’s math capabilities with new vector and geometry operations.
+
+#+title: Features
+- Vector rotations
+- Shape classes
+- Collision detection (AABB, OBB, and collisions across shapes)
+- Raycasting
+  
+#+title: Plans
+
+* TODO Rotating vector notes
+* TODO Add seperate document file containing only formulas
+* TODO Add reference images for notes
+* TODO Add support for circle, triangle, and convex shape collisions.
+* TODO Add support for raycasting
