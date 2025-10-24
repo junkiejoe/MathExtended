@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-10-23 Thu 00:41 -->
+<!-- 2025-10-23 Thu 19:16 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>&lrm;</title>
@@ -193,6 +193,38 @@
     { background-color: #ffff00; color: #000000; font-weight: bold; }
   .org-svg { }
 </style>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
 </head>
 <body>
 <div id="content" class="content">
@@ -200,39 +232,61 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgb705df2">1. Shape types</a></li>
-<li><a href="#org131dd8c">2. Rotating vectors</a></li>
-<li><a href="#org70be3c0">3. Finding the corners of a rectangle.</a></li>
-<li><a href="#orgba7df83">4. Colisions and intersections</a>
+<li><a href="#org1b74c8e">1. Shape types</a></li>
+<li><a href="#org8e7f823">2. Trigonometry</a>
 <ul>
-<li><a href="#org07e42a1">4.1. Line segment intersections</a></li>
-<li><a href="#org9499541">4.2. (Axis Aligned) Rectangle collisions</a>
+<li><a href="#org0352717">2.1. Degrees vs radians</a></li>
+<li><a href="#org4d799aa">2.2. Trigonometric functions</a>
 <ul>
-<li><a href="#org87b9a20">4.2.1. Point in rectangle</a></li>
-<li><a href="#org4311d81">4.2.2. Line in rectangle</a></li>
-<li><a href="#orgbb16720">4.2.3. Rectangle in rectangle</a></li>
+<li><a href="#org29e2499">2.2.1. Finding the points of a circle (sine and cosine)</a></li>
+<li><a href="#org63e364f">2.2.2. Finding the slope of an angle (tangent)</a></li>
 </ul>
 </li>
-<li><a href="#org3a1f340">4.3. (Orientated) Rectangle collisions</a>
+<li><a href="#org3ffafc3">2.3. Inverse trigonometric functions</a>
 <ul>
-<li><a href="#org6b46369">4.3.1. Point in rectangle</a></li>
-<li><a href="#orgd26c2d8">4.3.2. Line in rectangle</a></li>
-<li><a href="#org6540b5a">4.3.3. SAT (Seperating Axis Theorem)</a></li>
-<li><a href="#org6ef89c6">4.3.4. What is SAT</a></li>
-<li><a href="#org3adc50e">4.3.5. Implementing SAT</a></li>
+<li><a href="#org82496a3">2.3.1. Finding the angle of a vector</a></li>
+<li><a href="#org85a1bdc">2.3.2. Finding the angle between two points</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#org848c832">5. Collisions accross shapes</a></li>
+<li><a href="#org43930a9">3. Rotating Vectors</a>
+<ul>
+<li><a href="#org5511bfe">3.1. Rotating 2D vectors</a></li>
+<li><a href="#org22520c4">3.2. Rotating 3D vectors</a></li>
+</ul>
+</li>
+<li><a href="#orgcdd0456">4. Finding the corners of a rectangle.</a></li>
+<li><a href="#orgecc14ca">5. Colisions and intersections</a>
+<ul>
+<li><a href="#orgb938326">5.1. Line segment intersections</a></li>
+<li><a href="#org2bea3d4">5.2. (Axis Aligned) Rectangle collisions</a>
+<ul>
+<li><a href="#org801c518">5.2.1. Point in rectangle</a></li>
+<li><a href="#org6e168b5">5.2.2. Line in rectangle</a></li>
+<li><a href="#org321b665">5.2.3. Rectangle in rectangle</a></li>
+</ul>
+</li>
+<li><a href="#org65d3dec">5.3. (Orientated) Rectangle collisions</a>
+<ul>
+<li><a href="#org53f52bb">5.3.1. Point in rectangle</a></li>
+<li><a href="#org53a9f06">5.3.2. Line in rectangle</a></li>
+<li><a href="#org9c3c3d6">5.3.3. SAT (Seperating Axis Theorem)</a></li>
+<li><a href="#org6bf5080">5.3.4. What is SAT</a></li>
+<li><a href="#orgf9a5de4">5.3.5. Implementing SAT</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org07f3515">6. Collisions accross shapes</a></li>
 </ul>
 </div>
 </div>
 <p>
-Before you begin reading, there are some things you should know.
+Notice: When I say "Luau", I am referring to Luau + Roblox. Luau, the language, does not come built in with some of the Roblox types like Vector2 and Vector3.
 </p>
-<div id="outline-container-orgb705df2" class="outline-2">
-<h2 id="orgb705df2"><span class="section-number-2">1.</span> Shape types</h2>
+<div id="outline-container-org1b74c8e" class="outline-2">
+<h2 id="org1b74c8e"><span class="section-number-2">1.</span> Shape types</h2>
 <div class="outline-text-2" id="text-1">
 <div class="org-src-container">
 <pre class="src src-C"><span style="color: #0000FF; font-weight: bold;">struct</span> <span style="color: #6434A3;">PolygonProperties</span> {
@@ -262,14 +316,155 @@ Before you begin reading, there are some things you should know.
 </div>
 </div>
 </div>
-<div id="outline-container-org131dd8c" class="outline-2">
-<h2 id="org131dd8c"><span class="section-number-2">2.</span> Rotating vectors</h2>
+<div id="outline-container-org8e7f823" class="outline-2">
+<h2 id="org8e7f823"><span class="section-number-2">2.</span> Trigonometry</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org0352717" class="outline-3">
+<h3 id="org0352717"><span class="section-number-3">2.1.</span> Degrees vs radians</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+The range of values of an angle in degrees is between 0 to 360°, or -180° to 180°.
+The range of values of an angle in radians is between 0 to 2&pi; or 0 -&pi; to &pi;.
+</p>
+
+<p>
+Radians are much more precise, while degrees are easier to understand and measure. For computing, prefer radians over degrees. An example where using degrees is better is when your users have to describe rotation. It would be easier for them to describe it in degrees, as they deal with less percise numbers.
+</p>
+</div>
+</div>
+<div id="outline-container-org4d799aa" class="outline-3">
+<h3 id="org4d799aa"><span class="section-number-3">2.2.</span> Trigonometric functions</h3>
+<div class="outline-text-3" id="text-2-2">
+</div>
+<div id="outline-container-org29e2499" class="outline-4">
+<h4 id="org29e2499"><span class="section-number-4">2.2.1.</span> Finding the points of a circle (sine and cosine)</h4>
+<div class="outline-text-4" id="text-2-2-1">
+<p>
+Sine gives us the y value of our rotation, and cosine gives us the x value. The values of sine and cosine are normalized. If we have a point \(P = (cos \theta, sin \theta)\), where the value of &theta; is 0, and the values of P are (1,0).
+</p>
+<div class="org-src-container">
+<pre class="src src-lua"><span style="color: #8D8D84;">-- </span><span style="color: #8D8D84; font-style: italic;">Get the vector from an angle &#952; in radians
+</span><span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #0000FF; font-weight: bold;">function</span> <span style="color: #006699;">GetVectorFromAngle</span>(<span style="color: #BA36A5;">angle</span>: number): Vector2
+    <span style="color: #0000FF; font-weight: bold;">return</span> Vector2.new(<span style="color: #006FE0;">math</span>.<span style="color: #006FE0;">cos</span>(angle), <span style="color: #006FE0;">math</span>.<span style="color: #006FE0;">sin</span>(angle))
+<span style="color: #0000FF; font-weight: bold;">end</span>
+</pre>
 </div>
 
+<p>
+To get a point on a unit circle we scale the sine and cosine by the radius.
+\[ P = (cos \theta, sin \theta) * R \]
+</p>
 
-<div id="outline-container-org70be3c0" class="outline-2">
-<h2 id="org70be3c0"><span class="section-number-2">3.</span> Finding the corners of a rectangle.</h2>
+<div class="org-src-container">
+<pre class="src src-lua"><span style="color: #8D8D84;">-- </span><span style="color: #8D8D84; font-style: italic;">Get the point from an angle &#952; in radians, and the radius of the Unit circle
+</span><span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #0000FF; font-weight: bold;">function</span> <span style="color: #006699;">GetPointOnUnitCircle</span>(<span style="color: #BA36A5;">angle</span>: number, radius: number): Vector2
+    <span style="color: #0000FF; font-weight: bold;">return</span> Vector2.new(<span style="color: #006FE0;">math</span>.<span style="color: #006FE0;">cos</span>(angle), <span style="color: #006FE0;">math</span>.<span style="color: #006FE0;">sin</span>(angle)) * radius
+<span style="color: #0000FF; font-weight: bold;">end</span>
+</pre>
+</div>
+
+<p>
+If we wanted to the same for a circle with an origin vector, we add the origin vector to the same result we get from the unit circle point.
+</p>
+<div class="org-src-container">
+<pre class="src src-lua"><span style="color: #8D8D84;">-- </span><span style="color: #8D8D84; font-style: italic;">Get the point from an angle &#952; in radians, and the radius of the Unit circle
+</span>  <span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #0000FF; font-weight: bold;">function</span> <span style="color: #006699;">GetPointOnCircle</span>(<span style="color: #BA36A5;">origin</span>: vector2, angle: number, radius: number): Vector2
+      <span style="color: #0000FF; font-weight: bold;">return</span> GetPointOnUnitCircle(angle, radius) + origin
+  <span style="color: #0000FF; font-weight: bold;">end</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org63e364f" class="outline-4">
+<h4 id="org63e364f"><span class="section-number-4">2.2.2.</span> Finding the slope of an angle (tangent)</h4>
+<div class="outline-text-4" id="text-2-2-2">
+<p>
+The tangent of an angle &theta; returns the slope of the angle. A common use case for tangent is for animations where the point slows after a certain point, then resumes back to normal speed.
+</p>
+
+<p>
+At -90° and 90°, the tangent will return undefined.
+This is because:
+\[tan(\theta) =  \frac{sin \theta}{cos\theta}\]
+</p>
+
+<p>
+And the cos of 90° is 0. Andwhen the divisor is zero&#x2026; yeah you get the picture. So make sure to handle the case of exactly 90 degrees (or &pi;/2) angles.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org3ffafc3" class="outline-3">
+<h3 id="org3ffafc3"><span class="section-number-3">2.3.</span> Inverse trigonometric functions</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+Inverse trigonometric (also called the arc or arcus functions) perform the inverse operations of a trigonometric function, and are used to get the angle. In Luau, the inverse functions are prefixed with a. For example, the inverse of math.sin is math.asin, and math.cos is math.acos. Outside of Luau, they can also be prefixed by arc.
+</p>
+</div>
+<div id="outline-container-org82496a3" class="outline-4">
+<h4 id="org82496a3"><span class="section-number-4">2.3.1.</span> Finding the angle of a vector</h4>
+<div class="outline-text-4" id="text-2-3-1">
+<p>
+Any vector can be defined as \((cos\theta, sin\theta)\cdot R\). To find the theta, we do the inverse operations.
+</p>
+
+<p>
+\(\frac{(cos\theta, sin\theta)}{R}\)
+</p>
+
+<p>
+This gives us \((cos\theta, sin\theta)\). We know \(sin\theta = O/H\), and \(cos\theta = A/H\). To get H, we do:
+</p>
+
+<p>
+\(H = O/A\)
+</p>
+
+<p>
+And we can just get the angle from the x or y right..? Wrong. Doing \(O*H\) wouldn't give us the expected values. Even doing \(arcsin\theta\) would give the wrong value. Now if you don't care to know why (I don't blame you) then the simple answer is to just use the math.atan2 function.
+</p>
+<div class="org-src-container">
+<pre class="src src-lua"><span style="color: #0000FF; font-weight: bold;">local</span> <span style="color: #0000FF; font-weight: bold;">function</span> <span style="color: #006699;">VectorAngle</span>(<span style="color: #BA36A5;">vec</span>: Vector2): number
+    <span style="color: #0000FF; font-weight: bold;">return</span> <span style="color: #006FE0;">math</span>.<span style="color: #006FE0;">atan2</span>(vec.Y, vec.X)
+<span style="color: #0000FF; font-weight: bold;">end</span>
+</pre>
+</div>
+
+<p>
+Theres actually a few issues with just using arccos and arcsin.
+</p>
+</div>
+</div>
+<div id="outline-container-org85a1bdc" class="outline-4">
+<h4 id="org85a1bdc"><span class="section-number-4">2.3.2.</span> Finding the angle between two points</h4>
+<div class="outline-text-4" id="text-2-3-2">
+<p>
+We have two points, A and B, and we want to find the angle between them. 
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org43930a9" class="outline-2">
+<h2 id="org43930a9"><span class="section-number-2">3.</span> Rotating Vectors</h2>
 <div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-org5511bfe" class="outline-3">
+<h3 id="org5511bfe"><span class="section-number-3">3.1.</span> Rotating 2D vectors</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+Depending on what angle we want to rotate the vector by, we can use different formulas to fight the rotated vector. The first way works for all use cases.
+</p>
+</div>
+</div>
+<div id="outline-container-org22520c4" class="outline-3">
+<h3 id="org22520c4"><span class="section-number-3">3.2.</span> Rotating 3D vectors</h3>
+</div>
+</div>
+<div id="outline-container-orgcdd0456" class="outline-2">
+<h2 id="orgcdd0456"><span class="section-number-2">4.</span> Finding the corners of a rectangle.</h2>
+<div class="outline-text-2" id="text-4">
 <p>
 So we want to find the corners of a rectangle. We have the origin, the length and the width. When we have an unrotated rectangle, we can easily find the corners.
 </p>
@@ -286,7 +481,7 @@ Let:
 </ul>
 
 <p>
-Now if we have an angle &Theta; on our rectangle, this won't work. So what can we do? Well you might think to just rotate all the points. And this works perfectly fine. We can calculate cos(&Theta;) and sin(&Theta;) once, reuse them for every corner, and get good enough results. However, there is a better method. 
+Now if we have an angle &theta; on our rectangle, this won't work. So what can we do? Well you might think to just rotate all the points. And this works perfectly fine. We can calculate cos(&theta;) and sin(&theta;) once, reuse them for every corner, and get good enough results. However, there is a better method. 
 </p>
 
 <p>
@@ -318,11 +513,11 @@ O will form a right angle from A. So all we need to do is get A, the point 90° 
 </div>
 
 <p>
-So if &Theta; = 0, then
+So if &theta; = 0, then
 </p>
 
 <ul class="org-ul">
-<li>A = (cos&Theta;, sin&Theta;) = (1, 0)</li>
+<li>A = (cos&theta;, sin&theta;) = (1, 0)</li>
 <li>O = (-A<sub>y</sub>, A<sub>x</sub>) = (0, 1)</li>
 <li>R = A + O = (1, 1)</li>
 </ul>
@@ -335,7 +530,7 @@ Now that we have A and O we can use them for every corner. If you want the botto
 Let:
 </p>
 <ul class="org-ul">
-<li>A = (cos&Theta;, sin&Theta;) * (W/2)</li>
+<li>A = (cos&theta;, sin&theta;) * (W/2)</li>
 <li>O = (-A<sub>y</sub>, A<sub>x</sub>) * (H/2)</li>
 <li>C<sub>1</sub> (Top right)    =   A + O</li>
 <li>C<sub>2</sub> (Top left)     = (-A) + O</li>
@@ -376,13 +571,13 @@ This is how the function would look in Luau
 </div>
 </div>
 </div>
-<div id="outline-container-orgba7df83" class="outline-2">
-<h2 id="orgba7df83"><span class="section-number-2">4.</span> Colisions and intersections</h2>
-<div class="outline-text-2" id="text-4">
+<div id="outline-container-orgecc14ca" class="outline-2">
+<h2 id="orgecc14ca"><span class="section-number-2">5.</span> Colisions and intersections</h2>
+<div class="outline-text-2" id="text-5">
 </div>
-<div id="outline-container-org07e42a1" class="outline-3">
-<h3 id="org07e42a1"><span class="section-number-3">4.1.</span> Line segment intersections</h3>
-<div class="outline-text-3" id="text-4-1">
+<div id="outline-container-orgb938326" class="outline-3">
+<h3 id="orgb938326"><span class="section-number-3">5.1.</span> Line segment intersections</h3>
+<div class="outline-text-3" id="text-5-1">
 <p>
 What does it mean for two lines to intersect? Lets say we have a line L with the points {(1,0), (-1, 0)}. We want to check if these points cross Y axis. In order for that to happen, these points must be on opposite sides of the y-axis. Basically, one point needs to be on the left side, and the other on the right, If they are on the same side, they cannot cross each other. In this case, the line L does cross the y-axis because they are on opposite sides. We also know the y-axis crosses the L because it is infinite, so L and the y-axis intersect each other.
 </p>
@@ -494,9 +689,9 @@ Lets look at how we would implement these functions in Luau:
 </div>
 </div>
 </div>
-<div id="outline-container-org9499541" class="outline-3">
-<h3 id="org9499541"><span class="section-number-3">4.2.</span> (Axis Aligned) Rectangle collisions</h3>
-<div class="outline-text-3" id="text-4-2">
+<div id="outline-container-org2bea3d4" class="outline-3">
+<h3 id="org2bea3d4"><span class="section-number-3">5.2.</span> (Axis Aligned) Rectangle collisions</h3>
+<div class="outline-text-3" id="text-5-2">
 <p>
 This section will cover 3 types of rectangle collisions.
 </p>
@@ -507,9 +702,9 @@ This section will cover 3 types of rectangle collisions.
 <li>Rectangle in rectangle</li>
 </ol>
 </div>
-<div id="outline-container-org87b9a20" class="outline-4">
-<h4 id="org87b9a20"><span class="section-number-4">4.2.1.</span> Point in rectangle</h4>
-<div class="outline-text-4" id="text-4-2-1">
+<div id="outline-container-org801c518" class="outline-4">
+<h4 id="org801c518"><span class="section-number-4">5.2.1.</span> Point in rectangle</h4>
+<div class="outline-text-4" id="text-5-2-1">
 <p>
 The space to query in a unrotated rectangle is X<sub>min</sub> X<sub>max</sub>,  and Y<sub>min</sub> Y<sub>max</sub>.
 </p>
@@ -555,9 +750,9 @@ In Luau:
 </div>
 </div>
 </div>
-<div id="outline-container-org4311d81" class="outline-4">
-<h4 id="org4311d81"><span class="section-number-4">4.2.2.</span> Line in rectangle</h4>
-<div class="outline-text-4" id="text-4-2-2">
+<div id="outline-container-org6e168b5" class="outline-4">
+<h4 id="org6e168b5"><span class="section-number-4">5.2.2.</span> Line in rectangle</h4>
+<div class="outline-text-4" id="text-5-2-2">
 <p>
 There are two ways to be considered "colliding" with a rectangle.
 </p>
@@ -603,9 +798,9 @@ In Luau:
 </div>
 </div>
 </div>
-<div id="outline-container-orgbb16720" class="outline-4">
-<h4 id="orgbb16720"><span class="section-number-4">4.2.3.</span> Rectangle in rectangle</h4>
-<div class="outline-text-4" id="text-4-2-3">
+<div id="outline-container-org321b665" class="outline-4">
+<h4 id="org321b665"><span class="section-number-4">5.2.3.</span> Rectangle in rectangle</h4>
+<div class="outline-text-4" id="text-5-2-3">
 <p>
 We have two axis aligned rectangles, R<sub>1</sub> and R<sub>2</sub>. We know the space defined by these rectangles is between x<sub>min</sub> x<sub>max</sub>, and y<sub>min</sub> y<sub>max</sub>. To check if the space between the two rectangles overlap, we can check:
 </p>
@@ -640,13 +835,13 @@ for the x and y axis of the min and max of R<sub>1</sub> and R<sub>2</sub>. If t
 </div>
 </div>
 </div>
-<div id="outline-container-org3a1f340" class="outline-3">
-<h3 id="org3a1f340"><span class="section-number-3">4.3.</span> (Orientated) Rectangle collisions</h3>
-<div class="outline-text-3" id="text-4-3">
+<div id="outline-container-org65d3dec" class="outline-3">
+<h3 id="org65d3dec"><span class="section-number-3">5.3.</span> (Orientated) Rectangle collisions</h3>
+<div class="outline-text-3" id="text-5-3">
 </div>
-<div id="outline-container-org6b46369" class="outline-4">
-<h4 id="org6b46369"><span class="section-number-4">4.3.1.</span> Point in rectangle</h4>
-<div class="outline-text-4" id="text-4-3-1">
+<div id="outline-container-org53f52bb" class="outline-4">
+<h4 id="org53f52bb"><span class="section-number-4">5.3.1.</span> Point in rectangle</h4>
+<div class="outline-text-4" id="text-5-3-1">
 <p>
 This is actually pretty simple. Rather than dealing with a rotated rectangle, we can just rotate the point by the rectangle's angle.
 </p>
@@ -660,9 +855,9 @@ This is actually pretty simple. Rather than dealing with a rotated rectangle, we
 </div>
 </div>
 </div>
-<div id="outline-container-orgd26c2d8" class="outline-4">
-<h4 id="orgd26c2d8"><span class="section-number-4">4.3.2.</span> Line in rectangle</h4>
-<div class="outline-text-4" id="text-4-3-2">
+<div id="outline-container-org53a9f06" class="outline-4">
+<h4 id="org53a9f06"><span class="section-number-4">5.3.2.</span> Line in rectangle</h4>
+<div class="outline-text-4" id="text-5-3-2">
 <p>
 We use the same technique as Point in rectangle.
 </p>
@@ -677,9 +872,9 @@ We use the same technique as Point in rectangle.
 </div>
 </div>
 </div>
-<div id="outline-container-org6540b5a" class="outline-4">
-<h4 id="org6540b5a"><span class="section-number-4">4.3.3.</span> SAT (Seperating Axis Theorem)</h4>
-<div class="outline-text-4" id="text-4-3-3">
+<div id="outline-container-org9c3c3d6" class="outline-4">
+<h4 id="org9c3c3d6"><span class="section-number-4">5.3.3.</span> SAT (Seperating Axis Theorem)</h4>
+<div class="outline-text-4" id="text-5-3-3">
 <p>
 With AABB rectangle in rectangle collision, we checked, for each axis if:
 </p>
@@ -697,9 +892,9 @@ If this is true for both axes, there is a collision. In this section, we will ta
 </p>
 </div>
 </div>
-<div id="outline-container-org6ef89c6" class="outline-4">
-<h4 id="org6ef89c6"><span class="section-number-4">4.3.4.</span> What is SAT</h4>
-<div class="outline-text-4" id="text-4-3-4">
+<div id="outline-container-org6bf5080" class="outline-4">
+<h4 id="org6bf5080"><span class="section-number-4">5.3.4.</span> What is SAT</h4>
+<div class="outline-text-4" id="text-5-3-4">
 <p>
 From <a href="https://en.wikipedia.org/wiki/Hyperplane_separation_theorem#Use_in_collision_detection">Wikipedia</a>:
 </p>
@@ -714,9 +909,9 @@ This description "if there exists a line ("separating axis") onto which the two 
 </p>
 </div>
 </div>
-<div id="outline-container-org3adc50e" class="outline-4">
-<h4 id="org3adc50e"><span class="section-number-4">4.3.5.</span> Implementing SAT</h4>
-<div class="outline-text-4" id="text-4-3-5">
+<div id="outline-container-orgf9a5de4" class="outline-4">
+<h4 id="orgf9a5de4"><span class="section-number-4">5.3.5.</span> Implementing SAT</h4>
+<div class="outline-text-4" id="text-5-3-5">
 <p>
 We have two rectangles, R<sub>1</sub> and R<sub>2</sub>. We want to find out, using the SAT theorem, if these rectangles collide.
 </p>
@@ -891,13 +1086,13 @@ Do this for every corner on a rectangle, and get the min and max of the projecti
 </div>
 </div>
 </div>
-<div id="outline-container-org848c832" class="outline-2">
-<h2 id="org848c832"><span class="section-number-2">5.</span> Collisions accross shapes</h2>
+<div id="outline-container-org07f3515" class="outline-2">
+<h2 id="org07f3515"><span class="section-number-2">6.</span> Collisions accross shapes</h2>
 </div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Joe</p>
-<p class="date">Created: 2025-10-23 Thu 00:41</p>
+<p class="date">Created: 2025-10-23 Thu 19:16</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

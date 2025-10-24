@@ -1,6 +1,5 @@
-Before you begin reading, there are some things you should know.
+Notice: When I say "Luau", I am referring to Luau + Roblox. Luau, the language, does not come built in with some of the Roblox types like Vector2 and Vector3.
 
-   
 * Shape types
 
 #+begin_src C
@@ -29,9 +28,77 @@ Before you begin reading, there are some things you should know.
   };
 #+end_src
 
-* Rotating vectors
+* Trigonometry
+** Degrees vs radians
+The range of values of an angle in degrees is between 0 to 360°, or -180° to 180°.
+The range of values of an angle in radians is between 0 to 2\pi or 0 -\pi to \pi.
 
+Radians are much more precise, while degrees are easier to understand and measure. For computing, prefer radians over degrees. An example where using degrees is better is when your users have to describe rotation. It would be easier for them to describe it in degrees, as they deal with less percise numbers.
 
+** Trigonometric functions
+*** Finding the points of a circle (sine and cosine)
+Sine gives us the y value of our rotation, and cosine gives us the x value. The values of sine and cosine are normalized. If we have a point $P = (cos \theta, sin \theta)$, where the value of \theta is 0, and the values of P are (1,0).
+#+begin_src lua
+  -- Get the vector from an angle θ in radians
+  local function GetVectorFromAngle(angle: number): Vector2
+  	return Vector2.new(math.cos(angle), math.sin(angle))
+  end
+#+end_src
+
+To get a point on a unit circle we scale the sine and cosine by the radius.
+$$ P = (cos \theta, sin \theta) * R $$
+#+begin_comment
+Where R is the radius of circle
+#+end_comment
+
+#+begin_src lua
+  -- Get the point from an angle θ in radians, and the radius of the Unit circle
+  local function GetPointOnUnitCircle(angle: number, radius: number): Vector2
+  	return Vector2.new(math.cos(angle), math.sin(angle)) * radius
+  end
+#+end_src
+
+If we wanted to the same for a circle with an origin vector, we add the origin vector to the same result we get from the unit circle point.
+#+begin_src lua
+  -- Get the point from an angle θ in radians, and the radius of the Unit circle
+    local function GetPointOnCircle(origin: vector2, angle: number, radius: number): Vector2
+  	  return GetPointOnUnitCircle(angle, radius) + origin
+    end
+#+end_src
+
+*** Finding the slope of an angle (tangent)
+The tangent of an angle \theta returns the slope of the angle. A common use case for tangent is for animations where the point slows after a certain point, then resumes back to normal speed.
+
+At -90° and 90°, the tangent will return undefined.
+This is because:
+$$tan(\theta) =  \frac{sin \theta}{cos\theta}$$
+
+And the cos of 90° is 0. Andwhen the divisor is zero... yeah you get the picture. So make sure to handle the case of exactly 90 degrees (or \pi/2) angles.
+** Inverse trigonometric functions
+Inverse trigonometric (also called the arc or arcus functions) perform the inverse operations of a trigonometric function, and are used to get the angle. In Luau, the inverse functions are prefixed with a. For example, the inverse of math.sin is math.asin, and math.cos is math.acos. Outside of Luau, they can also be prefixed by arc.
+*** Finding the angle of a vector
+Any vector can be defined as $(cos\theta, sin\theta)\cdot R$. To find the theta, we do the inverse operations.
+
+$\frac{(cos\theta, sin\theta)}{R}$
+
+This gives us $(cos\theta, sin\theta)$. We know $sin\theta = O/H$, and $cos\theta = A/H$. To get H, we do:
+
+$H = O/A$
+
+And we can just get the angle from the x or y right..? Wrong. Doing $O*H$ wouldn't give us the expected values. Even doing $arcsin\theta$ would give the wrong value. Now if you don't care to know why (I don't blame you) then the simple answer is to just use the math.atan2 function.
+#+begin_src lua
+  local function VectorAngle(vec: Vector2): number
+  	return math.atan2(vec.Y, vec.X)
+  end
+#+end_src
+
+Theres actually a few issues with just using arccos and arcsin.
+*** Finding the angle between two points
+We have two points, A and B, and we want to find the angle between them. 
+* Rotating Vectors
+** Rotating 2D vectors
+Depending on what angle we want to rotate the vector by, we can use different formulas to fight the rotated vector. The first way works for all use cases.
+** Rotating 3D vectors
 * Finding the corners of a rectangle.
 
 So we want to find the corners of a rectangle. We have the origin, the length and the width. When we have an unrotated rectangle, we can easily find the corners.
@@ -43,7 +110,7 @@ Let:
 - C (Bottom left corner) = (-W/2, -H/2)
 - D (Bottom right corner) = (W/2, -H/2)
 
-Now if we have an angle \Theta on our rectangle, this won't work. So what can we do? Well you might think to just rotate all the points. And this works perfectly fine. We can calculate cos(\Theta) and sin(\Theta) once, reuse them for every corner, and get good enough results. However, there is a better method. 
+Now if we have an angle \theta on our rectangle, this won't work. So what can we do? Well you might think to just rotate all the points. And this works perfectly fine. We can calculate cos(\theta) and sin(\theta) once, reuse them for every corner, and get good enough results. However, there is a better method. 
 
 Lets look at two important properties of a rectangle.
 - The opposite sides are parallel to eachother
@@ -64,16 +131,16 @@ O will form a right angle from A. So all we need to do is get A, the point 90° 
 Tip: If you want to get the left angle, don't neg A_{y}
 #+end_comment
 
-So if \Theta = 0, then
+So if \theta = 0, then
 
-- A = (cos\Theta, sin\Theta) = (1, 0)
+- A = (cos\theta, sin\theta) = (1, 0)
 - O = (-A_{y}, A_{x}) = (0, 1)
 - R = A + O = (1, 1)
 
 Now that we have A and O we can use them for every corner. If you want the bottom left, just do -R, and if you want the bottom right do (-A) - O. Lets look at the full equation to get all corners.
 
 Let:
-- A = (cos\Theta, sin\Theta) * (W/2)
+- A = (cos\theta, sin\theta) * (W/2)
 - O = (-A_{y}, A_{x}) * (H/2)
 - C_{1} (Top right)    =   A + O
 - C_{2} (Top left)     = (-A) + O
