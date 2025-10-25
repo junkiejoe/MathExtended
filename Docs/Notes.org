@@ -27,7 +27,6 @@ Notice: When I say "Luau", I am referring to Luau + Roblox. Luau, the language, 
     float radius;
   };
 #+end_src
-
 * Trigonometry
 ** Degrees vs radians
 The range of values of an angle in degrees is between 0 to 360°, or -180° to 180°.
@@ -46,7 +45,7 @@ Sine gives us the y value of our rotation, and cosine gives us the x value. The 
 #+end_src
 
 To get a point on a unit circle we scale the sine and cosine by the radius.
-$$ P = (cos \theta, sin \theta) * R $$
+$$P = (cos \theta, sin \theta) \cdot R$$
 #+begin_comment
 Where R is the radius of circle
 #+end_comment
@@ -71,9 +70,9 @@ The tangent of an angle \theta returns the slope of the angle. A common use case
 
 At -90° and 90°, the tangent will return undefined.
 This is because:
-$$tan(\theta) =  \frac{sin \theta}{cos\theta}$$
+$$tan(\theta) = \frac{sin \theta}{cos\theta}$$
 
-And the cos of 90° is 0. Andwhen the divisor is zero... yeah you get the picture. So make sure to handle the case of exactly 90 degrees (or \pi/2) angles.
+And the cos of 90° is 0. Andwhen the divisor is zero... you get undefined. So make sure to handle the case of exactly 90 degrees (or \pi/2) angles.
 ** Inverse trigonometric functions
 Inverse trigonometric (also called the arc or arcus functions) perform the inverse operations of a trigonometric function, and are used to get the angle. In Luau, the inverse functions are prefixed with a. For example, the inverse of math.sin is math.asin, and math.cos is math.acos. Outside of Luau, they can also be prefixed by arc.
 *** Finding the angle of a vector
@@ -81,36 +80,68 @@ Any vector can be defined as $(cos\theta, sin\theta)\cdot R$. To find the theta,
 
 $\frac{(cos\theta, sin\theta)}{R}$
 
-This gives us $(cos\theta, sin\theta)$. We know $sin\theta = O/H$, and $cos\theta = A/H$. To get H, we do:
-
-$H = O/A$
-
-And we can just get the angle from the x or y right..? Wrong. Doing $O*H$ wouldn't give us the expected values. Even doing $arcsin\theta$ would give the wrong value. Now if you don't care to know why (I don't blame you) then the simple answer is to just use the math.atan2 function.
+This gives us $(cos\theta, sin\theta)$.
+Now we can just get the angle from the inverse of sin or cos, right..? Wrong. Now if you don't care to know why, then the answer is to just use the math.atan2 function.
 #+begin_src lua
-  local function VectorAngle(vec: Vector2): number
+  local function GetVectorAngle(vec: Vector2): number
   	return math.atan2(vec.Y, vec.X)
   end
 #+end_src
 
-Theres actually a few issues with just using arccos and arcsin.
-*** Finding the angle between two points
-We have two points, A and B, and we want to find the angle between them. 
-* Rotating Vectors
-** Rotating 2D vectors
-Depending on what angle we want to rotate the vector by, we can use different formulas to fight the rotated vector. The first way works for all use cases.
-** Rotating 3D vectors
+The range of values returned from sin and cos are between -1 and 1, which is not the same as the range of values of a radian angle. Any periodic function (that is, a function who repeats its return values at an interval), cannot have a true inverse function. The domain of arcsin becomes the range of sin (-1, 1), but the range of arcsin becomes (-90°, 90°).
+
+We know the answer to the problem is atan2, so what is so special about tan that we can use atan2 to find the angles? First off, tan's range is the set of all real numbers (-\inf, \inf). So for atan, the domain becomes any real number. But the problem with atan is that the range becomes (-90°, 90°). Atan2 gives us the full (-180°, 180°). To learn more about the atan2 function, refer to this [[https://en.wikipedia.org/wiki/Atan2][wikipedia article]].
+*** Finding the angle between two vectors
+For 2D vectors, there is already A Vector2:Angle method. So if you want to get the angle between two vectors do:
+#+begin_src lua
+vec1:Angle(vec2)
+#+end_src
+And you can optionally pass a second parameter to get the full range of values (-\pi, \pi).
+#+begin_src lua
+vec1:Angle(vec2, true)
+#+end_src
+
+So to find the angle, we need to pass any trigonometric ratio to the corresponding inverse function. From these two vectors we can calculate:
+
+The dot product to find \sin\theta
+$$\frac{\vec{u} \times \vec{v}}{\|\vec{u}\| \cdot \|\vec{v}\|}$$
+
+or, use the cross product to find \cos\theta.
+$$\frac{\vec{u} \cdot \vec{v}}{\|\vec{u}\| \cdot \|\vec{v}\|}$$
+
+Where:
+- $\vec{u}$ and $\vec{v}$ are vectors
+- $\|\vec{u}\|$ and $\|\vec{v}\|$ are the magnitude of $\vec{u}$ and $\vec{v}$.
+
+We can use the inverse functions on the results to get an angle (-90°, 90°) for asin, and (0, 180°) for acos. This works, but it uses division which can return undefined values. It also cannot get the full range of values (-180°, 180°). We can use the atan2 function to solve both problems.
+
+$$atan2({\vec{u} \times \vec{v}, \vec{u} \cdot \vec{v}})$$
+* Vectors
+** 2D vectors
+*** Rotating 2D vectors
+#+begin_src lua
+  local function RotateVector(vec: Vector2, angle): number
+  	local x, y = vec.X, vec.Y
+  	return Vector2.new(
+  		x * math.cos(angle) - (y * math.sin(angle)),
+  		x * math.sin(angle) + (y * math.cos(angle)))
+  end
+#+end_src
+
+** 3D vectors
+*** Rotating 3D vectors
 * Finding the corners of a rectangle.
 
-So we want to find the corners of a rectangle. We have the origin, the length and the width. When we have an unrotated rectangle, we can easily find the corners.
+We have the origin, the length and the width of a rectangle. When we have an unrotated rectangle, we can easily find the corners.
 
 Let:
 - W (width) H (height)
-- A (Top left corner) = (-W/2, H/2)
-- B (Top right corner) = (W/2, H/2)
-- C (Bottom left corner) = (-W/2, -H/2)
-- D (Bottom right corner) = (W/2, -H/2)
+- A (Top left corner) = $(-W/2, H/2)$
+- B (Top right corner) = $(W/2, H/2)$
+- C (Bottom left corner) = $(-W/2, -H/2)$
+- D (Bottom right corner) = $(W/2, -H/2)$
 
-Now if we have an angle \theta on our rectangle, this won't work. So what can we do? Well you might think to just rotate all the points. And this works perfectly fine. We can calculate cos(\theta) and sin(\theta) once, reuse them for every corner, and get good enough results. However, there is a better method. 
+Now if we have an angle \theta on our rectangle, this won't work. So what can we do? Well you might think to just rotate all the points. And this works perfectly fine. We can calculate cos(\theta) and sin(\theta) once, reuse them for every corner, and get the answer. However, there is a better method. 
 
 Lets look at two important properties of a rectangle.
 - The opposite sides are parallel to eachother
@@ -122,14 +153,9 @@ Where:
 - O is the opposite vector
 - R is the sum of A and O
 
-O will form a right angle from A. So all we need to do is get A, the point 90° from A.
+O will form a right angle from A. So all we need to do is:
 
-#+begin_center
-- O = (-A_{y}, A_{x})
-#+end_center
-#+begin_comment
-Tip: If you want to get the left angle, don't neg A_{y}
-#+end_comment
+$$O = (-A_{y}, A_{x})$$
 
 So if \theta = 0, then
 
@@ -137,18 +163,17 @@ So if \theta = 0, then
 - O = (-A_{y}, A_{x}) = (0, 1)
 - R = A + O = (1, 1)
 
-Now that we have A and O we can use them for every corner. If you want the bottom left, just do -R, and if you want the bottom right do (-A) - O. Lets look at the full equation to get all corners.
+Now that we have A and O we can use them for every corner.
 
 Let:
 - A = (cos\theta, sin\theta) * (W/2)
 - O = (-A_{y}, A_{x}) * (H/2)
-- C_{1} (Top right)    =   A + O
-- C_{2} (Top left)     = (-A) + O
-- C_{3} (Bottom left)  =  -C_{1}
-- C_{4} (Bottom right) =   -C_{2}
+- C_{1} (Top left)     =  (-A) + O
+- C_{2} (Top right)    =  A + O
+- C_{3} (Bottom left)  =  (-A) - O
+- C_{4} (Bottom right) =   A - O
 
-This is how the function would look in Luau
-
+Now lets implement this in Luau.
 #+begin_src lua
   local function GetAARectCorners(width: number, height: number, origin: Vector2): (Vector2, Vector2, Vector2, Vector2)
   	local half_width = width/2
@@ -165,14 +190,11 @@ This is how the function would look in Luau
     	local adjacent  = Vector2.new(cos, sin) * (width/2)
     	local opposite = Vector2.new(-sin, cos) * (height/2)
 
-    	local C1 = adjacent + opposite
-    	local C2 = -adjacent + opposite
-    	
     	return
-    		origin + C1,
-    		origin + C2,
-    		origin - C1,
-    		origin - C2
+    		origin + (-adjacent + opposite),
+    		origin + (adjacent + opposite),
+    		origin - (-adjacent - opposite),
+    		origin - (adjacent - opposite)
   end
 #+end_src
 
@@ -190,31 +212,28 @@ Let:
 We need to check if the points in L_{2} are on the on the left and right of L_{1}. We can use the cross product of two 2D vectors to determine this. The cross product of two 2D vectors, A and B, return a signed scalar value. We can use this signed value to detect if B is clockwise (right) or counterclockwise (left) from A.
 
 The cross product two 2D vectors is defined as:
-#+begin_center
-Cross(P_{1}, P_{2}) = P_{1}.x * P_{2}.y - P_{1}.y * P_{2}.x
-#+end_center
+
+$$cross(P_{1}, P_{2}) = P_{1}.x \cdot P_{2}.y - P_{1}.y \cdot P_{2}.x$$
+
 
 So the function to find if L_{2} crosses L_{1} is:
-#+begin_center
-Cross(p_{2} - p_{1}, p_{3} - p_{1}) > 0
-~=
-Cross(p_{2} - p_{1}, p_{4} - p_{1}) > 0
-#+end_center
+
+$$cross(p_{2} - p_{1}, p_{3} - p_{1}) > 0\\
+~=\\
+cross(p_{2} - p_{1}, p_{4} - p_{1}) > 0$$
 
 We subtract p_{1} from the values so they have a common origin. If they are AA or BB, it means they are on the same side, therefore they do not cross. If they are AB or BA, they are different, therefore they do cross.
 
 Now we need to check the other way, if the points in L_{1} are on the on the left and right of L_{2}. Since L_{2} is y-axis aligned, we can just check if the x components of p_{1} and p_{2} are on the left and right of x of. It doesn't even matter which x we use from p_{3} or p_{4} in this case, since they are both the same.
 
-#+begin_center
-p_{1}.x < p_{3}.x
-~=
-p_{2}.x < p_{3}.x
-#+end_center
+
+$$p_{1}.x < p_{3}.x\\
+~=\\
+p_{2}.x < p_{3}.x$$
 
 If we wanted to check the same for an x-axis aligned line-segment, we just swap the x values for y.
 
 Lets look at how we would implement these functions in Luau:
-
 #+begin_src lua
   local function LineIntersectsXAALine(p1: Vector2, p2: Vector2, p3: Vector2, p4: Vector2): boolean
   	local fixed_p2 = p2 - p1 
@@ -378,14 +397,14 @@ This is actually pretty simple. Rather than dealing with a rotated rectangle, we
 We use the same technique as Point in rectangle.
 
 #+begin_src lua
-  local function QueryLineInRect(p1: Vector2, p2: Vector2, rect: S_Rect)
+  local function QueryLineInRect(p1: Vector2, p2: Vector2, rect: S_Rect): boolean
   	local rotated_p1 = RotatePointAroundPoint(p1, rect.origin, rect.angle)
   	local rotated_p2 = RotatePointAroundPoint(p2, rect.origin, rect.angle)
   	return QueryLineInAARect(rotated_p1, rotated_p2, rect)
   end
 #+end_src
 
-*** SAT (Seperating Axis Theorem)
+** Seperating Axis Theorem (SAT)
 
 With AABB rectangle in rectangle collision, we checked, for each axis if:
 
@@ -416,13 +435,10 @@ The steps for detecting SAT collision are:
 
 It sounds complex, and it is, but I will try my best to make it clear. If by the end of this you are still confused, here are some resources that could better visualize SAT.
 
-[1] danielstuts (May 6, 2020). 2D Physics Engine from Scratch (JS) 15: Separating Axis Theorem.
+danielstuts (May 6, 2020). 2D Physics Engine from Scratch (JS) 15: Separating Axis Theorem.\\
 https://www.youtube.com/watch?v=RBya4M6SWwk
-[2] Programmer Art. Separating Axis Theorem
+Programmer Art. Separating Axis Theorem\\
 https://programmerart.weebly.com/separating-axis-theorem.html
-
-Particularly, the tutorial by Programmer Art is a lot more detailed, and better explained than here. But, it is longer.
-
 
 Lets start with the first step, which is getting the normals of the rectangle. To get the normal of an edge E = {p_{1}, p_{2}}, you first get the direction vector. This means subtracting the origin (p_{1}).
 
