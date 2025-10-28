@@ -1,0 +1,13 @@
+{
+	"name": "MathExtended",
+	"tree": {
+		"$className": "DataModel",
+		"ReplicatedStorage": {
+			"$className": "ReplicatedStorage",
+			"Packages": {
+				"$className": "Folder",
+				"$path": "src/MathExtended"
+			}
+		}
+	}
+}
